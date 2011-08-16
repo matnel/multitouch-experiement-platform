@@ -38,6 +38,9 @@ void DataReader::parseData()
             }
 
 
+            if( reader->error() ) {
+                qWarning() << "Something wrong with the inpurt file line " + reader->lineNumber() + reader->errorString();
+            }
 
             reader->readNext();
     }
