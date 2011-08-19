@@ -1,5 +1,7 @@
 #include "experimenttrial.h"
 
+#include "locationvaluelistener.h"
+
 #include <QtCore/qmath.h>
 
 ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distance, int size, int angle, QPoint gridPosition)
@@ -17,6 +19,11 @@ ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distan
 
     this->setFixed(true);
     this->setAllowRotation(false);
+
+    this->setInputTransparent(true);
+    this->setColor(0, 0, 0, 0);
+
+    this->setSize(1000, 1000);
 }
 
 void ExperimentTrial::createUI()
