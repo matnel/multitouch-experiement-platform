@@ -1,9 +1,11 @@
 #ifndef EXPERIMENTTRIAL_H
 #define EXPERIMENTTRIAL_H
 
+#include <MultiWidgets/Widget.hpp>
+
 #include <QPoint>
 
-class ExperimentTrial // : public ExperimentDataObject
+class ExperimentTrial : MultiWidgets::Widget
 {
 public:
     enum RotationDirection {Clockwise, Counterclockwise};
