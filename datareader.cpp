@@ -22,8 +22,11 @@ void DataReader::parseData()
                 QXmlStreamAttributes attributes = reader->attributes();
 
                 int id = attributes.value("id").toString().toInt();
+
                 int angle = attributes.value("angle").toString().toInt();
                 int size = attributes.value("size").toString().toInt();
+                int distance = attributes.value("distance").toString().toInt();
+
                 int x = attributes.value("grid_x").toString().toInt();
                 int y = attributes.value("grid_y").toString().toInt();
 
@@ -34,7 +37,7 @@ void DataReader::parseData()
                     direction = ExperimentTrial::Counterclockwise;
                 }
 
-                ExperimentTrial * trial = new ExperimentTrial(id, direction, size, angle, QPoint(x, y) );
+                ExperimentTrial * trial = new ExperimentTrial(id, direction, distance, size, angle, QPoint(x, y) );
             }
 
 
