@@ -18,6 +18,7 @@ private:
     int distance;
     QPoint gridPosition;
     void createUI();
+    void createMovable(int x, int y);
 };
 
 #endif // EXPERIMENTTRIAL_H

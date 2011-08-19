@@ -24,6 +24,16 @@ void ExperimentTrial::createUI()
     int x = 500;
     int y = 500;
 
+    createMovable(x,y);
+
+    x = qCos( this->angle ) * this->distance + x;
+    y = qSin( this->angle ) * this->distance + y;
+
+    createMovable( x, y);
+}
+
+void ExperimentTrial::createMovable(int x, int y)
+{
     MultiWidgets::Widget * a = new MultiWidgets::Widget();
     a->setWidth(this->size);
     a->setHeight(this->size);
@@ -33,12 +43,15 @@ void ExperimentTrial::createUI()
 
     this->addChild(a);
 
-    MultiWidgets::Widget * b = new MultiWidgets::Widget();
-    b->setWidth(this->size);
-    b->setHeight(this->size);
-    b->setColor(0,0,100,50);
+    MultiWidgets::Widget * as = new MultiWidgets::Widget();
+    as->setWidth(this->size-10);
+    as->setHeight(this->size-10);
+    as->setColor(100,50,0,50);
 
-    b->setCenterLocation( Nimble::Vector2( qCos( this->angle ) * this->distance + x , qSin( this->angle ) * this->distance + y) );
+    as->setCenterLocation( Nimble::Vector2(x, y) );
 
-    this->addChild(b);
+    as->setAllowRotation(false);
+    as->setFixed(true);
+
+    this->addChild(as);
 }
