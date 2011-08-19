@@ -16,12 +16,13 @@ ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distan
     this->createUI();
 
     this->setFixed(true);
+    this->setAllowRotation(false);
 }
 
 void ExperimentTrial::createUI()
 {
-    int x = 150;
-    int y = 150;
+    int x = 500;
+    int y = 500;
 
     MultiWidgets::Widget * a = new MultiWidgets::Widget();
     a->setWidth(this->size);
@@ -37,7 +38,7 @@ void ExperimentTrial::createUI()
     b->setHeight(this->size);
     b->setColor(0,0,100,50);
 
-    b->setCenterLocation( Nimble::Vector2( qSin( this->angle ) * this->distance * x , qCos( this->angle * this->distance * y) ));
+    b->setCenterLocation( Nimble::Vector2( qCos( this->angle ) * this->distance + x , qSin( this->angle ) * this->distance + y) );
 
     this->addChild(b);
 }
