@@ -3,6 +3,8 @@
 #include <QDebug>
 
 #include "logthread.h"
+#include "datareader.h"
+#include "experimenttrial.h"
 
 int main(int argc, char ** argv)
 {
@@ -13,21 +15,15 @@ int main(int argc, char ** argv)
   if(!app.simpleInit(argc, argv))
     return 1;
 
-  for(int i = 0; i < 1; i++) {
+//  LogThread * log = new LogThread( app.root(), app.grabManager() );
+//  log->start();
 
-    MultiWidgets::Widget * w = new MultiWidgets::Widget();
+  QFile * f = new QFile("example.xml");
+  DataReader * data = new DataReader( f );
 
-    w->setSize(Nimble::Vector2(100, 100));
-    w->setLocation(Nimble::Vector2(i * 50, i * 50));
-    w->setColor(Nimble::Vector4(1.0, 1.0f - i * 0.2, 0.3, 0.97));
+  ExperimentTrial * trial = new ExperimentTrial(10, ExperimentTrial::Clockwise, 10, 100, 0, QPoint(0, 0) );
 
-    w->setRotation(45);
-
-    app.root()->addChild(w);
-   }
-
-  LogThread * log = new LogThread( app.root(), app.grabManager() );
-  log->start();
+  app.root()->addChild( trial );
 
   return app.run();
 }
