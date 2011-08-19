@@ -10,4 +10,16 @@ ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distan
     this->angle = angle;
 
     this->gridPosition = gridPosition;
+
+    this->createUI();
+}
+
+void ExperimentTrial::createUI()
+{
+    MultiWidgets::Widget * a = new MultiWidgets::Widget();
+    a->setWidth(this->size);
+    a->setHeight(this->size);
+    a->setColor(100,0,0,50);
+
+    this->addChild(a);
 }
