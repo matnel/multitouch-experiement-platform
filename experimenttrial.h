@@ -5,7 +5,7 @@
 
 #include <QPoint>
 
-class ExperimentTrial : MultiWidgets::Widget
+class ExperimentTrial : public MultiWidgets::Widget
 {
 public:
     enum RotationDirection {Clockwise, Counterclockwise};
@@ -14,9 +14,10 @@ private:
     int id;
     RotationDirection direction;
     int size;
-    int angle;
+    double angle;
     int distance;
     QPoint gridPosition;
+    void createUI();
 };
 
 #endif // EXPERIMENTTRIAL_H

@@ -9,7 +9,7 @@ ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distan
 
     this->distance = distance;
     this->size = size;
-    this->angle = angle;
+    this->angle = angle / 180.0 * M_PI;
 
     this->gridPosition = gridPosition;
 
