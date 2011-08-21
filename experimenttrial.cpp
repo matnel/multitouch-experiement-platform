@@ -1,6 +1,6 @@
 #include "experimenttrial.h"
 
-#include "locationvaluelistener.h"
+#include "locationawarewidget.h"
 
 #include <QtCore/qmath.h>
 
@@ -41,10 +41,11 @@ void ExperimentTrial::createUI()
 
 void ExperimentTrial::createMovable(int x, int y)
 {
-    MultiWidgets::Widget * a = new MultiWidgets::Widget();
+    LocationAwareWidget * a = new LocationAwareWidget();
     a->setWidth(this->size);
     a->setHeight(this->size);
     a->setColor(100,0,0,50);
+    a->setVelocity(0,0);
 
     a->setCenterLocation( Nimble::Vector2(x, y) );
 
