@@ -28,18 +28,21 @@ ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distan
 
 void ExperimentTrial::createUI()
 {
-    int x = 500;
-    int y = 500;
+    int x1 = 500;
+    int y1 = 500;
 
-    createMovable(x,y);
+    int x2 = qCos( this->angle ) * this->distance + x1;
+    int y2 = qSin( this->angle ) * this->distance + y1;
 
-    x = qCos( this->angle ) * this->distance + x;
-    y = qSin( this->angle ) * this->distance + y;
+    LocationAwareWidget * first = createMovable( x1 , y1);
+    LocationAwareWidget * second = createMovable( x2, y2 );
 
-    createMovable( x, y);
+    first->setTarget(x2, y2);
+    second->setTarget(x1,y1);
+
 }
 
-void ExperimentTrial::createMovable(int x, int y)
+LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
 {
     LocationAwareWidget * a = new LocationAwareWidget();
     a->setWidth(this->size);
@@ -62,4 +65,6 @@ void ExperimentTrial::createMovable(int x, int y)
     as->setFixed(true);
 
     this->addChild(as);
+
+    return a;
 }

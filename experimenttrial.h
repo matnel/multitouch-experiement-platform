@@ -2,6 +2,7 @@
 #define EXPERIMENTTRIAL_H
 
 #include <MultiWidgets/Widget.hpp>
+#include "locationawarewidget.h"
 
 #include <QPoint>
 
@@ -18,7 +19,7 @@ private:
     int distance;
     QPoint gridPosition;
     void createUI();
-    void createMovable(int x, int y);
+    LocationAwareWidget * createMovable(int x, int y);
 };
 
 #endif // EXPERIMENTTRIAL_H
