@@ -76,7 +76,8 @@ void ExperimentTrial::processMessage(const char *id, Radiant::BinaryData &data)
 {
     if( strcmp( id , "check_targets") == 0 ) {
         if( this->first->isTargetReached() && this->second->isTargetReached() ) {
-            qDebug() << "Hello world!";
+            this->hide();
+            eventSend("next_trial");
         }
     }
 }
