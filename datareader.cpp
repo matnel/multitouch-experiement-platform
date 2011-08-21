@@ -38,6 +38,7 @@ void DataReader::parseData()
                 }
 
                 ExperimentTrial * trial = new ExperimentTrial(id, direction, distance, size, angle, QPoint(x, y) );
+                this->m_trials.push_back(trial);
             }
 
 
@@ -48,4 +49,9 @@ void DataReader::parseData()
             reader->readNext();
     }
 
+}
+
+std::vector<ExperimentTrial*> DataReader::trials()
+{
+    return this->m_trials;
 }
