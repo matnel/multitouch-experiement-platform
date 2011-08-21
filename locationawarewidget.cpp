@@ -16,7 +16,14 @@ void LocationAwareWidget::interactionEnd(MultiWidgets::GrabManager &input)
 void LocationAwareWidget::input(MultiWidgets::GrabManager &gm, float dt)
 {
     MultiWidgets::Widget::input(gm, dt);
-    qDebug() << this->location().x;
+
+    int ERROR_MARGIN = 50;
+
+    if( qAbs( this->location().y - this->targetY ) <= ERROR_MARGIN && qAbs( this->location().x - this->targetX ) <= ERROR_MARGIN ) {
+        this->setColor(0.5,0,1,1);
+    } else {
+        this->setColor(1,0,0,1);
+    }
 }
 
 void LocationAwareWidget::setTarget(int x, int y)
