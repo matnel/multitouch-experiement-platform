@@ -37,6 +37,6 @@ void LocationAwareWidget::setTarget(int x, int y)
 
 bool LocationAwareWidget::isTargetReached()
 {
-    return this->isTargetReached();
+    return this->targetReached;
 
 }
