@@ -18,10 +18,13 @@ void DataReader::parseData()
 {
     while( ! reader->atEnd() ) {
 
-            if( reader->name() == "trial" ) {
+            if( reader->name() == "trial" & reader->isStartElement() ) {
                 QXmlStreamAttributes attributes = reader->attributes();
 
                 int id = attributes.value("id").toString().toInt();
+
+                qDebug() << "XML!!";
+                qDebug() << id;
 
                 int angle = attributes.value("angle").toString().toInt();
                 int size = attributes.value("size").toString().toInt();
