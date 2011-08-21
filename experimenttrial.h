@@ -20,6 +20,7 @@ private:
     QPoint gridPosition;
     void createUI();
     LocationAwareWidget * createMovable(int x, int y);
+    virtual void processMessage (const char * id, Radiant::BinaryData & data);
 };
 
 #endif // EXPERIMENTTRIAL_H

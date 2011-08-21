@@ -3,6 +3,7 @@
 #include "locationawarewidget.h"
 
 #include <QtCore/qmath.h>
+#include <QDebug>
 
 ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distance, int size, int angle, QPoint gridPosition)
 {
@@ -52,6 +53,8 @@ LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
 
     a->setCenterLocation( Nimble::Vector2(x, y) );
 
+    a->eventAddListener("target_reached", "check_targets", this);
+
     this->addChild(a);
 
     MultiWidgets::Widget * as = new MultiWidgets::Widget();
@@ -67,4 +70,11 @@ LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
     this->addChild(as);
 
     return a;
+}
+
+void ExperimentTrial::processMessage(const char *id, Radiant::BinaryData &data)
+{
+    if( strcmp( id , "check_targets") == 0 ) {
+        qDebug() << "Ok!";
+    }
 }
