@@ -35,11 +35,11 @@ void ExperimentTrial::createUI()
     int x2 = qCos( this->angle ) * this->distance + x1;
     int y2 = qSin( this->angle ) * this->distance + y1;
 
-    LocationAwareWidget * first = createMovable( x1 , y1);
-    LocationAwareWidget * second = createMovable( x2, y2 );
+    this->first = createMovable( x1 , y1);
+    this->second = createMovable( x2, y2 );
 
-    first->setTarget(x2, y2);
-    second->setTarget(x1,y1);
+    this->first->setTarget(x2, y2);
+    this->second->setTarget(x1,y1);
 
 }
 

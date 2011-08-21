@@ -18,8 +18,13 @@ private:
     double angle;
     int distance;
     QPoint gridPosition;
+
     void createUI();
     LocationAwareWidget * createMovable(int x, int y);
+
+    LocationAwareWidget * first;
+    LocationAwareWidget * second;
+
     virtual void processMessage (const char * id, Radiant::BinaryData & data);
 };
 
