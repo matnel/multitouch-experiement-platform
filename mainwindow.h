@@ -12,6 +12,7 @@ private:
     int currentTrial;
     void nextTrial();
     std::vector<ExperimentTrial *> trials;
+    void processMessage(const char *id, Radiant::BinaryData &data);
 };
 
 #endif // MAINWINDOW_H
