@@ -75,6 +75,8 @@ LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
 void ExperimentTrial::processMessage(const char *id, Radiant::BinaryData &data)
 {
     if( strcmp( id , "check_targets") == 0 ) {
-        qDebug() << "Ok!";
+        if( this->first->isTargetReached() && this->second->isTargetReached() ) {
+            qDebug() << "Hello world!";
+        }
     }
 }
