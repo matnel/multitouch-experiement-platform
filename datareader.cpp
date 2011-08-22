@@ -23,15 +23,12 @@ void DataReader::parseData()
 
                 int id = attributes.value("id").toString().toInt();
 
-                qDebug() << "XML!!";
-                qDebug() << id;
-
                 int angle = attributes.value("angle").toString().toInt();
                 int size = attributes.value("size").toString().toInt();
                 int distance = attributes.value("distance").toString().toInt();
 
-                int x = attributes.value("x").toString().toInt();
-                int y = attributes.value("y").toString().toInt();
+                int x = attributes.value("x1").toString().toInt();
+                int y = attributes.value("y1").toString().toInt();
 
                 ExperimentTrial::RotationDirection direction;
                 if( attributes.value("direction").toString() == "clock" ) {
@@ -40,7 +37,7 @@ void DataReader::parseData()
                     direction = ExperimentTrial::Counterclockwise;
                 }
 
-                ExperimentTrial * trial = new ExperimentTrial(id, direction, distance, size, angle, QPoint(x, y) );
+                ExperimentTrial * trial = new ExperimentTrial(id, direction, distance, size, angle, x, y );
                 this->m_trials.push_back(trial);
             }
 
