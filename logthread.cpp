@@ -12,17 +12,16 @@ LogThread::LogThread(MultiWidgets::Widget * widget, MultiWidgets::GrabManager * 
 
 void LogThread::run() {
     while( this->isRunning() ) {
-        MultiWidgets::Widget * w = this->canvas->child(0);
-        if( w->grabFingerCount() > 0 ) {
-            qDebug() << QTime().currentTime().toString("hh:mm:ss:zzz");
-            MultiWidgets::Widget::FingerIds::iterator start = w->grabFingerBegin();
-            MultiWidgets::Widget::FingerIds::iterator last = w->grabFingerEnd();
-            for( MultiWidgets::Widget::FingerIds::iterator finger = start; finger != last; finger++ ) {
-                qDebug() << *finger;
-                MultiTouch::Finger f = this->gm->getFinger( *finger );
-                qDebug() << f.isNull();
-            }
+        qDebug() << QTime().currentTime().toString("hh:mm:ss:zzz");
+        MultiWidgets::Widget * w = canvas->child(0);
+        MultiWidgets::Widget::FingerIds::iterator start = w->grabFingerBegin();
+        MultiWidgets::Widget::FingerIds::iterator last = w->grabFingerEnd();
+        for( MultiWidgets::Widget::FingerIds::iterator finger = start; finger != last; finger++ ) {
+            MultiTouch::Finger f = this->gm->findFinger( *finger );
+            qDebug() << f.id();
+            qDebug() << f.tipLocation().x;
+            qDebug() << f.tipLocation().y;
         }
-        this->msleep(3);
+        this->msleep(2);
     }
 }
