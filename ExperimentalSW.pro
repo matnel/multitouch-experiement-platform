@@ -14,13 +14,15 @@ LIBS += -lMultiWidgets \
     -lBox2D
 LIBS += -lSDLmain
 linux-*:LIBS += -lThreadedRendering
-
 HEADERS += datareader.h \
-    experimentdataobject.h \
     experimenttrial.h \
-logthread.h
+    logthread.h \
+    locationawarewidget.h \
+    mainwindow.h
 SOURCES += datareader.cpp \
-    experimentdataobject.cpp \
     experimenttrial.cpp \
- Hello.cpp \
-    logthread.cpp
+    Hello.cpp \
+    logthread.cpp \
+    locationawarewidget.cpp \
+    mainwindow.cpp
+OTHER_FILES += example.xml
