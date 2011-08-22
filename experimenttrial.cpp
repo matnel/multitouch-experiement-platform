@@ -5,7 +5,7 @@
 #include <QtCore/qmath.h>
 #include <QDebug>
 
-ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distance, int size, int angle, QPoint gridPosition)
+ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distance, int size, int angle, int x1, int y1)
 {
 
     qDebug() << size;
@@ -17,7 +17,8 @@ ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distan
     this->size = size;
     this->angle = angle / 180.0 * M_PI;
 
-    this->gridPosition = gridPosition;
+    this->x1 = x1;
+    this->y1 = y1;
 
     this->createUI();
 
@@ -32,8 +33,6 @@ ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distan
 
 void ExperimentTrial::createUI()
 {
-    int x1 = 500;
-    int y1 = 500;
 
     int x2 = qCos( this->angle ) * this->distance + x1;
     int y2 = qSin( this->angle ) * this->distance + y1;
