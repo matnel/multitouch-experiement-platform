@@ -7,6 +7,9 @@
 
 ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distance, int size, int angle, QPoint gridPosition)
 {
+
+    qDebug() << size;
+
     this->id = id;
     this->direction = direction;
 
@@ -50,6 +53,8 @@ LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
     a->setHeight(this->size);
     a->setColor(100,0,0,50);
     a->setVelocity(0,0);
+
+    a->setInputFlags(MultiWidgets::Widget::INPUT_MOTION_XY);
 
     a->setCenterLocation( Nimble::Vector2(x, y) );
 
