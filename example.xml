@@ -1,7 +1,7 @@
 <data>
-<trial id="11" direction="clock" angle="30" size="100" distance="200" grid_x ="10" grid_y="10" ></trial>
-<trial id="10" direction="clock" angle="0" size="100" distance="200" grid_x ="10" grid_y="10" ></trial>
-<trial id="12" direction="clock" angle="90" size="100" distance="200" grid_x ="10" grid_y="10" ></trial>
-<trial id="13" direction="clock" angle="45" size="100" distance="200" grid_x ="10" grid_y="10" ></trial>
-<trial id="14" direction="clock" angle="135" size="100" distance="200" grid_x ="10" grid_y="10" ></trial>
+<trial id="10" direction="clock" angle="0" size="50" distance="200" x1 ="500" y1="500" ></trial>
+<trial id="11" direction="clock" angle="30" size="50" distance="20" x1 ="500" y1="500" ></trial>
+<trial id="12" direction="clock" angle="90" size="50" distance="20" x1 ="500" y1="500" ></trial>
+<trial id="13" direction="clock" angle="45" size="50" distance="20" x1 ="500" y1="500" ></trial>
+<trial id="14" direction="clock" angle="135" size="50" distance="20" x1 ="500" y1="500" ></trial>
 </data>

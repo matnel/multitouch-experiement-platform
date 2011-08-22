@@ -30,8 +30,8 @@ void DataReader::parseData()
                 int size = attributes.value("size").toString().toInt();
                 int distance = attributes.value("distance").toString().toInt();
 
-                int x = attributes.value("grid_x").toString().toInt();
-                int y = attributes.value("grid_y").toString().toInt();
+                int x = attributes.value("x").toString().toInt();
+                int y = attributes.value("y").toString().toInt();
 
                 ExperimentTrial::RotationDirection direction;
                 if( attributes.value("direction").toString() == "clock" ) {
