@@ -35,6 +35,9 @@ void MainWindow::nextTrial()
     // this->deleteChild(trial);
     this->currentTrial++;
     if( this->currentTrial >= this->trials.size() ) {
+        MultiWidgets::TextBox * text = new MultiWidgets::TextBox();
+        text->setText("Test is over, thank you!");
+        this->addChild( text );
         return;
     }
     trial = trials[ this->currentTrial ];
