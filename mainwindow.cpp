@@ -34,7 +34,7 @@ void MainWindow::nextTrial()
     // causes seg fault!
     // this->deleteChild(trial);
     this->currentTrial++;
-    if( this->currentTrial > this->trials.size() ) {
+    if( this->currentTrial >= this->trials.size() ) {
         return;
     }
     trial = trials[ this->currentTrial ];
