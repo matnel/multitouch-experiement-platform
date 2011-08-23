@@ -18,7 +18,7 @@ void DataReader::parseData()
 {
     while( ! reader->atEnd() ) {
 
-            if( reader->name() == "trial" & reader->isStartElement() ) {
+            if( reader->name() == "trial" && reader->isStartElement() ) {
                 QXmlStreamAttributes attributes = reader->attributes();
 
                 int id = attributes.value("id").toString().toInt();
