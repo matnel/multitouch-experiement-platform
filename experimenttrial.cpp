@@ -80,6 +80,8 @@ void ExperimentTrial::processMessage(const char *id, Radiant::BinaryData &data)
 {
     if( strcmp( id , "check_targets") == 0 ) {
         if( this->first->isTargetReached() && this->second->isTargetReached() ) {
+            this->first->eventRemoveListener(this);
+            this->second->eventRemoveListener(this);
             this->hide();
             eventSend("next_trial");
         }
