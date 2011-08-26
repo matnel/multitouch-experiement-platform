@@ -20,8 +20,7 @@ void ConnectionCheck::run() {
         }
         if( fingers < this->maxFingers ) {
             qDebug() << "Connection lost!";
-            this->exit();
-            break;
+            this->maxFingers = fingers;
         }
         this->msleep(2);
     }
