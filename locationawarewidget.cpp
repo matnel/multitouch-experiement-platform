@@ -14,18 +14,70 @@ void LocationAwareWidget::interactionEnd(MultiWidgets::GrabManager &input)
     this->setVelocity(0,0);
 }
 
+void LocationAwareWidget::grabFinger(long fingerId, MultiWidgets::GrabManager &gm)
+{
+    this->magic(fingerId, gm, false);
+}
+
+void LocationAwareWidget::magic(long fingerId, MultiWidgets::GrabManager &gm, bool inside) {
+
+    qDebug() << this->id();
+    if( this->grabFingerCount() < 1 ) {
+       qDebug() << "Crapping this finger";
+       MultiWidgets::Widget::grabFinger(fingerId, gm);
+    } else {
+        qDebug() << "Second finger!";
+        if( inside ) {
+            qDebug() << "in loop!";
+            return;
+        }
+        this->secondary->magic(fingerId, gm, true);
+    }
+    qDebug() << fingerId;
+
+    qDebug() << this->grabsFinger(fingerId);
+    qDebug() << this->grabFingerCount();
+}
+
+void LocationAwareWidget::grabHand(long handId, MultiWidgets::GrabManager &gm)
+{
+    // DO NOT GRAP HAND
+}
+
+void LocationAwareWidget::setSecondary(LocationAwareWidget * widget)
+{
+    this->secondary = widget;
+}
+
 void LocationAwareWidget::input(MultiWidgets::GrabManager &gm, float dt)
 {
     MultiWidgets::Widget::input(gm, dt);
+
+    // set color based on number of fingers
+    int fingers = this->grabFingerCount();
+
+    if( fingers == 0 ) {
+        this->setColor(1,0,0,0.95);
+    }
+    if( fingers == 1 ) {
+        this->setColor(0,1,0,0.95);
+    }
+    if( fingers == 2 ) {
+        this->setColor(0,0,1,0.95);
+    }
 
     int ERROR_MARGIN = 50;
 
     if( qAbs( this->location().y - this->targetY ) <= ERROR_MARGIN && qAbs( this->location().x - this->targetX ) <= ERROR_MARGIN ) {
         this->setColor(0.5,0,1,1);
-        this->targetReached = true;
-        eventSend("target_reached");
+        // purukumia! ## todo fix
+        if( !this->targetReached ) {
+            this->targetReached = true;
+            eventSend("target_reached");
+        }
     } else {
-        this->setColor(1,0,0,1);
+        this->targetReached = false;
+        // this->setColor(1,0,0,1);
     }
 }
 
