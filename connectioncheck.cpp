@@ -4,23 +4,24 @@
 #include <QTime>
 #include <MultiWidgets/Widget.hpp>
 
-ConnectionCheck::ConnectionCheck(MultiWidgets::Widget * widget, MultiWidgets::GrabManager * grapManager)
+ConnectionCheck::ConnectionCheck(MultiWidgets::Widget * widget)
 {
     this->canvas = widget;
-    this->gm = grapManager;
+    this->maxFingers = 0;
 }
 
 void ConnectionCheck::run() {
     while( this->isRunning() ) {
-        qDebug() << QTime().currentTime().toString("hh:mm:ss:zzz");
-        MultiWidgets::Widget * w = canvas->child(0);
-        MultiWidgets::Widget::FingerIds::iterator start = w->grabFingerBegin();
-        MultiWidgets::Widget::FingerIds::iterator last = w->grabFingerEnd();
-        for( MultiWidgets::Widget::FingerIds::iterator finger = start; finger != last; finger++ ) {
-            MultiTouch::Finger f = this->gm->findFinger( *finger );
-            qDebug() << f.id();
-            qDebug() << f.tipLocation().x;
-            qDebug() << f.tipLocation().y;
+        // qDebug() << QTime().currentTime().toString("hh:mm:ss:zzz");
+        MultiWidgets::Widget * w = canvas;
+        int fingers = w->grabFingerCount();
+        if( fingers > this->maxFingers ) {
+            this->maxFingers = fingers;
+        }
+        if( fingers < this->maxFingers ) {
+            qDebug() << "Connection lost!";
+            this->exit();
+            break;
         }
         this->msleep(2);
     }

@@ -8,11 +8,11 @@
 class ConnectionCheck : public QThread
 {
 public:
-    ConnectionCheck(MultiWidgets::Widget *widget, MultiWidgets::GrabManager *grapManager);
+    ConnectionCheck(MultiWidgets::Widget *widget);
     void run();
 private:
     MultiWidgets::Widget * canvas;
-    MultiWidgets::GrabManager * gm;
+    int maxFingers;
 };
 
 #endif // LOGTHREAD_H
