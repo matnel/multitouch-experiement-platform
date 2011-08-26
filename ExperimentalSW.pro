@@ -18,11 +18,13 @@ HEADERS += datareader.h \
     experimenttrial.h \
     logthread.h \
     locationawarewidget.h \
-    mainwindow.h
+    mainwindow.h \
+    connectioncheck.h
 SOURCES += datareader.cpp \
     experimenttrial.cpp \
     Hello.cpp \
     logthread.cpp \
     locationawarewidget.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    connectioncheck.cpp
 OTHER_FILES += example.xml
