@@ -43,6 +43,12 @@ void ExperimentTrial::createUI()
     this->first->setTarget(x2, y2);
     this->second->setTarget(x1,y1);
 
+    // start tchecking if connection is lost
+    this->firstCheck= new ConnectionCheck(this->first);
+    this->firstCheck->start();
+    this->secondCheck = new ConnectionCheck( this->second );
+    this->secondCheck->start();
+
 }
 
 LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
@@ -78,11 +84,15 @@ LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
 
 void ExperimentTrial::processMessage(const char *id, Radiant::BinaryData &data)
 {
+    qDebug() << id;
+    qDebug() << this->first->grabFingerCount();
+    qDebug() << this->second->grabFingerCount();
     if( strcmp( id , "check_targets") == 0 ) {
         if( this->first->isTargetReached() && this->second->isTargetReached() ) {
-            this->first->eventRemoveListener(this);
-            this->second->eventRemoveListener(this);
+            this->firstCheck->quit();
+            this->secondCheck->quit();
             this->hide();
+            qDebug() << "New!!!!!";
             eventSend("next_trial");
         }
     }

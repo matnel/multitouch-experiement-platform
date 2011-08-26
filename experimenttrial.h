@@ -3,6 +3,7 @@
 
 #include <MultiWidgets/Widget.hpp>
 #include "locationawarewidget.h"
+#include "connectioncheck.h"
 
 #include <QPoint>
 
@@ -25,6 +26,9 @@ private:
 
     LocationAwareWidget * first;
     LocationAwareWidget * second;
+
+    ConnectionCheck * firstCheck;
+    ConnectionCheck * secondCheck;
 
     virtual void processMessage (const char * id, Radiant::BinaryData & data);
 };
