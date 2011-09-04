@@ -51,12 +51,6 @@ void ExperimentTrial::createUI()
 
 }
 
-void ExperimentTrial::grabFinger(long fingerId, MultiWidgets::GrabManager &gm) {
-    qDebug() << "ExperimentTrial grapped this finger!!";
-    MultiWidgets::Widget::grabFinger(fingerId, gm);
-}
-
-
 LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
 {
     LocationAwareWidget * a = new LocationAwareWidget();
@@ -98,7 +92,6 @@ void ExperimentTrial::processMessage(const char *id, Radiant::BinaryData &data)
             this->firstCheck->quit();
             this->secondCheck->quit();
             this->hide();
-            qDebug() << "New!!!!!";
             eventSend("next_trial");
         }
     }
