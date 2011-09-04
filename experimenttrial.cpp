@@ -2,15 +2,14 @@
 
 #include "locationawarewidget.h"
 
+#include "MultiWidgets/ImageWidget.hpp"
+
 #include <QtCore/qmath.h>
 #include <QDebug>
 #include <QSound>
 
 ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distance, int size, int angle, int x1, int y1)
 {
-
-    qDebug() << size;
-
     this->id = id;
     this->direction = direction;
 
@@ -27,9 +26,22 @@ ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distan
     this->setAllowRotation(false);
 
     this->setInputTransparent(true);
-    this->setColor(0, 0, 0, 0);
+    this->setColor(1, 1, 1
+                   , 1);
 
     this->setSize(1000, 1000);
+
+    // rotation direction
+    MultiWidgets::ImageWidget * rotation = new MultiWidgets::ImageWidget();
+    rotation->setFixed(true);
+    rotation->setSize(100, 100);
+
+    if( this->direction == ExperimentTrial::Clockwise ) {
+        rotation->load("clockwise.png");
+    } else {
+        rotation->load("counterclockwise.png");
+    }
+    this->addChild( rotation );
 }
 
 void ExperimentTrial::createUI()
