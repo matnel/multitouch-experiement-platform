@@ -16,37 +16,13 @@ void LocationAwareWidget::interactionEnd(MultiWidgets::GrabManager &input)
 
 void LocationAwareWidget::grabFinger(long fingerId, MultiWidgets::GrabManager &gm)
 {
-    this->magic(fingerId, gm, false);
-}
+    MultiWidgets::Widget::grabFinger(fingerId, gm);
 
-void LocationAwareWidget::magic(long fingerId, MultiWidgets::GrabManager &gm, bool inside) {
-
-    qDebug() << this->id();
-    if( this->grabFingerCount() < 1 ) {
-       qDebug() << "Crapping this finger";
-       MultiWidgets::Widget::grabFinger(fingerId, gm);
-    } else {
-        qDebug() << "Second finger!";
-        if( inside ) {
-            qDebug() << "in loop!";
-            return;
-        }
-        this->secondary->magic(fingerId, gm, true);
-    }
-    qDebug() << fingerId;
-
-    qDebug() << this->grabsFinger(fingerId);
-    qDebug() << this->grabFingerCount();
 }
 
 void LocationAwareWidget::grabHand(long handId, MultiWidgets::GrabManager &gm)
 {
     // DO NOT GRAP HAND
-}
-
-void LocationAwareWidget::setSecondary(LocationAwareWidget * widget)
-{
-    this->secondary = widget;
 }
 
 void LocationAwareWidget::input(MultiWidgets::GrabManager &gm, float dt)
