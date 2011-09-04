@@ -4,6 +4,7 @@
 
 #include <QtCore/qmath.h>
 #include <QDebug>
+#include <QSound>
 
 ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distance, int size, int angle, int x1, int y1)
 {
@@ -84,14 +85,12 @@ LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
 
 void ExperimentTrial::processMessage(const char *id, Radiant::BinaryData &data)
 {
-    qDebug() << id;
-    qDebug() << this->first->grabFingerCount();
-    qDebug() << this->second->grabFingerCount();
     if( strcmp( id , "check_targets") == 0 ) {
         if( this->first->isTargetReached() && this->second->isTargetReached() ) {
             this->firstCheck->quit();
             this->secondCheck->quit();
             this->hide();
+            // QSound::play("task_done.wav");
             eventSend("next_trial");
         }
     }
