@@ -44,10 +44,10 @@ void ExperimentTrial::createUI()
     this->second->setTarget(x1,y1);
 
     // start tchecking if connection is lost
-    // this->firstCheck= new ConnectionCheck(this->first);
-    // this->firstCheck->start();
-    // this->secondCheck = new ConnectionCheck( this->second );
-    // this->secondCheck->start();
+    this->firstCheck= new ConnectionCheck(this->first);
+    this->firstCheck->start();
+    this->secondCheck = new ConnectionCheck( this->second );
+    this->secondCheck->start();
 
 }
 
