@@ -17,12 +17,18 @@ MainWindow::MainWindow()
     this->setInputTransparent(true);
     this->setColor(0, 0, 0, 0);
 
+    this->status = new MultiWidgets::TextBox();
+    this->status->setText("Hello World!");
+    this->addChild( this->status );
+    this->status->setLocation(800,0);
+
     // initial setup
     this->currentTrial = 0;
     ExperimentTrial * trial;
     trial = trials[ this->currentTrial ];
     this->addChild(trial);
     trial->eventAddListener("next_trial", "next_trial", this );
+
 
 }
 

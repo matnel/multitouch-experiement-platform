@@ -13,6 +13,7 @@ private:
     void nextTrial();
     std::vector<ExperimentTrial *> trials;
     void processMessage(const char *id, Radiant::BinaryData &data);
+    MultiWidgets::TextBox * status;
 };
 
 #endif // MAINWINDOW_H
