@@ -27,4 +27,8 @@ SOURCES += datareader.cpp \
     locationawarewidget.cpp \
     mainwindow.cpp \
     connectioncheck.cpp
-OTHER_FILES += example.xml
+OTHER_FILES += example.xml \
+    licence.txt \
+    task_done.wav \
+    clockwise.png \
+    counterclockwise.png
