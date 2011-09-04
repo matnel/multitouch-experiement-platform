@@ -5,6 +5,8 @@
 #include <MultiWidgets/Widget.hpp>
 #include <MultiWidgets/GrabManager.hpp>
 
+#include "yaml-cpp/yaml.h"
+
 class LogThread : public QThread
 {
 public:
@@ -13,6 +15,7 @@ public:
 private:
     MultiWidgets::Widget * canvas;
     MultiWidgets::GrabManager * gm;
+    YAML::Emitter out;
 };
 
 #endif // LOGTHREAD_H
