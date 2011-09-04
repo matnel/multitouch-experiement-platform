@@ -23,11 +23,8 @@ MainWindow::MainWindow()
     this->status->setLocation(800,0);
 
     // initial setup
-    this->currentTrial = 0;
-    ExperimentTrial * trial;
-    trial = trials[ this->currentTrial ];
-    this->addChild(trial);
-    trial->eventAddListener("next_trial", "next_trial", this );
+    this->currentTrial = -1;
+    this->nextTrial();
 
 
 }
@@ -48,15 +45,15 @@ void MainWindow::nextTrial()
     }
     trial = trials[ this->currentTrial ];
     trial->show();
-   trial->eventAddListener("next_trial", "next_trial", this );
+    trial->eventAddListener("next_trial", "next_trial", this );
+    QString s = QString::number( this->currentTrial + 1) + " of " + QString::number( this->trials.size() );
+    this->status->setText( s.toStdString() );
     this->addChild(trial);
-    qDebug() << "Done!";
 }
 
 void MainWindow::processMessage(const char *id, Radiant::BinaryData &data)
 {
     if( strcmp( id , "next_trial") == 0 ) {
-        qDebug() << "Next trial!!!";
         this->nextTrial();
     }
 }
