@@ -8,6 +8,8 @@
 #include <QDebug>
 #include <QSound>
 
+#include "settings.h"
+
 ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distance, int size, int angle, int x1, int y1)
 {
     this->id = id;
@@ -26,8 +28,7 @@ ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distan
     this->setAllowRotation(false);
 
     this->setInputTransparent(true);
-    this->setColor(1, 1, 1
-                   , 1);
+    this->setColor(1, 1, 1, 1);
 
     this->setSize(1000, 1000);
 
@@ -69,7 +70,11 @@ LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
     LocationAwareWidget * a = new LocationAwareWidget();
     a->setWidth(this->size);
     a->setHeight(this->size);
-    a->setColor(100,0,0,50);
+    if( DEBUG ) {
+        a->setColor(1,0,0,50);
+    } else {
+        a->setColor(0,0,0,0);
+    }
     a->setVelocity(0,0);
 
     a->setInputFlags(MultiWidgets::Widget::INPUT_MOTION_XY);
@@ -83,7 +88,7 @@ LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
     MultiWidgets::Widget * as = new MultiWidgets::Widget();
     as->setWidth(this->size-10);
     as->setHeight(this->size-10);
-    as->setColor(100,50,0,50);
+    as->setColor(0.5, 0.5, 0, 1);
 
     as->setCenterLocation( Nimble::Vector2(x, y) );
 
