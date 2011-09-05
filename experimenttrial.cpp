@@ -111,7 +111,7 @@ void ExperimentTrial::processMessage(const char *id, Radiant::BinaryData &data)
             this->firstCheck->quit();
             this->secondCheck->quit();
             this->hide();
-            // QSound::play("task_done.wav");
+            QSound::play("task_done.wav");
             eventSend("next_trial");
         }
     }
