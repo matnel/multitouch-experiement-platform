@@ -4,7 +4,7 @@
 #include <QFile>
 #include "datareader.h"
 
-MainWindow::MainWindow()
+MainWindow::MainWindow(MultiWidgets::GrabManager * application)
 {
     QFile * f = new QFile("example.xml");
     DataReader * data = new DataReader( f );
@@ -22,11 +22,13 @@ MainWindow::MainWindow()
     this->addChild( this->status );
     this->status->setLocation(800,0);
 
+    qDebug() << "MainWindow";
+    qDebug() << application;
+    this->application = application;
+
     // initial setup
     this->currentTrial = -1;
     this->nextTrial();
-
-
 }
 
 void MainWindow::nextTrial()
@@ -45,6 +47,7 @@ void MainWindow::nextTrial()
     }
     trial = trials[ this->currentTrial ];
     trial->show();
+    trial->setApplication( this->application );
     trial->eventAddListener("next_trial", "next_trial", this );
     QString s = QString::number( this->currentTrial + 1) + " of " + QString::number( this->trials.size() );
     this->status->setText( s.toStdString() );

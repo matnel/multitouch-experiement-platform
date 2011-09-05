@@ -4,6 +4,7 @@
 #include <QThread>
 #include <MultiWidgets/Widget.hpp>
 #include <MultiWidgets/GrabManager.hpp>
+#include <QTextStream>
 
 #include "yaml-cpp/yaml.h"
 
@@ -16,6 +17,8 @@ private:
     MultiWidgets::Widget * canvas;
     MultiWidgets::GrabManager * gm;
     YAML::Emitter out;
+    QTextStream * fileout;
+
 };
 
 #endif // LOGTHREAD_H

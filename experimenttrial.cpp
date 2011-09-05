@@ -8,6 +8,8 @@
 #include <QDebug>
 #include <QSound>
 
+#include "logthread.h"
+
 #include "settings.h"
 
 ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distance, int size, int angle, int x1, int y1)
@@ -68,8 +70,10 @@ void ExperimentTrial::createUI()
 LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
 {
     LocationAwareWidget * a = new LocationAwareWidget();
+
     a->setWidth(this->size);
     a->setHeight(this->size);
+
     if( DEBUG ) {
         a->setColor(1,0,0,50);
     } else {
@@ -111,4 +115,17 @@ void ExperimentTrial::processMessage(const char *id, Radiant::BinaryData &data)
             eventSend("next_trial");
         }
     }
+}
+
+void ExperimentTrial::setApplication(MultiWidgets::GrabManager *application)
+{
+    this->application = application;
+
+    // start logging
+
+    qDebug() << "Application";
+    qDebug() << this->application;
+
+    LogThread * log = new LogThread(this, this->application);
+    log->start();
 }

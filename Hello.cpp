@@ -5,6 +5,7 @@
 #include "logthread.h"
 #include "datareader.h"
 #include "experimenttrial.h"
+#include "mainwindow.h"
 
 int main(int argc, char ** argv)
 {
@@ -15,15 +16,14 @@ int main(int argc, char ** argv)
   if(!app.simpleInit(argc, argv))
     return 1;
 
-//  LogThread * log = new LogThread( app.root(), app.grabManager() );
-//  log->start();
-
   QFile * f = new QFile("example.xml");
   DataReader * data = new DataReader( f );
 
-  ExperimentTrial * trial = new ExperimentTrial(10, ExperimentTrial::Clockwise, 10, 100, 0, QPoint(0, 0) );
+  // ExperimentTrial * trial = new ExperimentTrial(10, ExperimentTrial::Clockwise, 10, 100, 0, QPoint(0, 0) );
 
-  app.root()->addChild( trial );
+  MainWindow * main = new MainWindow( app.grabManager() );
+
+  app.root()->addChild( main );
 
   return app.run();
 }
