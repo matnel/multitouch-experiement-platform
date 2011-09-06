@@ -7,6 +7,7 @@
 #include <QtCore/qmath.h>
 #include <QDebug>
 #include <QSound>
+#include <QDateTime>
 
 #include "logthread.h"
 
@@ -120,19 +121,17 @@ void ExperimentTrial::setApplication(MultiWidgets::GrabManager *application)
     this->application = application;
 
     // start logging
+    QString path = "./logs/log-" + QDateTime::currentDateTime().toString("yyyyMMddhhmm") + "-" + QString::number( this->id ) + "-";
 
-    qDebug() << "Application";
-    qDebug() << this->application;
-
-    // start tchecking if connection is lost
-    QFile * file1 = new QFile("./log2.txt");
+    // start checking if connection is lost
+    QFile * file1 = new QFile( path + "connection" );
     this->firstCheck= new ConnectionCheck(this->first, file1);
     this->firstCheck->start();
     this->secondCheck = new ConnectionCheck( this->second, file1);
     this->secondCheck->start();
 
     // start generic log
-    QFile * file = new QFile("./log.txt");
+    QFile * file = new QFile( path + "log" );
     this->log = new LogThread(this, this->application, file );
     this->log->start();
 }
