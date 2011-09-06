@@ -7,19 +7,18 @@
 
 #include "yaml-cpp/yaml.h"
 
-LogThread::LogThread(MultiWidgets::Widget * widget, MultiWidgets::GrabManager * grapManager)
+LogThread::LogThread(MultiWidgets::Widget * widget, MultiWidgets::GrabManager * grapManager, QFile * file)
 {
     this->canvas = widget;
     this->gm = grapManager;
+    this->file = file;
 }
 
 void LogThread::run() {
 
-    QFile file("./log.txt");
+    file->open( QIODevice::WriteOnly );
 
-    file.open( QIODevice::WriteOnly );
-
-    this->fileout = new QTextStream( &file );
+    this->fileout = new QTextStream( this->file );
 
     *this->fileout << "";
 
@@ -64,4 +63,6 @@ void LogThread::run() {
 
         this->msleep(2);
     }
+
+    this->file->close();
 }

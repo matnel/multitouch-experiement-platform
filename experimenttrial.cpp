@@ -127,6 +127,7 @@ void ExperimentTrial::setApplication(MultiWidgets::GrabManager *application)
     this->secondCheck->start();
 
     // start generic log
-    LogThread * log = new LogThread(this, this->application);
+    QFile * file = new QFile("./log.txt");
+    LogThread * log = new LogThread(this, this->application, file );
     log->start();
 }
