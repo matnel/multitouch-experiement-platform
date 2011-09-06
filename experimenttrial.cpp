@@ -102,8 +102,12 @@ void ExperimentTrial::processMessage(const char *id, Radiant::BinaryData &data)
 {
     if( strcmp( id , "check_targets") == 0 ) {
         if( this->first->isTargetReached() && this->second->isTargetReached() ) {
+
+            // close logs
             this->firstCheck->quit();
             this->secondCheck->quit();
+            this->log->quit();
+
             this->hide();
             QSound::play("task_done.wav");
             eventSend("next_trial");
@@ -128,6 +132,6 @@ void ExperimentTrial::setApplication(MultiWidgets::GrabManager *application)
 
     // start generic log
     QFile * file = new QFile("./log.txt");
-    LogThread * log = new LogThread(this, this->application, file );
-    log->start();
+    this->log = new LogThread(this, this->application, file );
+    this->log->start();
 }

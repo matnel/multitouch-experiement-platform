@@ -6,8 +6,9 @@
 #include <MultiWidgets/SimpleSDLApplication.hpp>
 
 #include "locationawarewidget.h"
-#include "connectioncheck.h"
 
+#include "connectioncheck.h"
+#include "logthread.h"
 
 class ExperimentTrial : public MultiWidgets::Widget
 {
@@ -33,6 +34,7 @@ private:
 
     ConnectionCheck * firstCheck;
     ConnectionCheck * secondCheck;
+    LogThread * log;
 
     MultiWidgets::GrabManager * application;
 
