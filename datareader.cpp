@@ -3,19 +3,19 @@
 #include "experimenttrial.h"
 
 #include <QDebug>
-#include <QTreeWidgetItem>
-
-#include <QFileInfo>
 
 DataReader::DataReader(QFile * file)
 {
-    file->open(QFile::ReadOnly);
-    this->reader = new QXmlStreamReader( file );
+    this->file = file;
+    this->file->open(QFile::ReadOnly);
+    this->reader = new QXmlStreamReader( this->file );
+
     this->parseData();
 }
 
 void DataReader::parseData()
 {
+    int i = 0;
     while( ! reader->atEnd() ) {
 
             if( reader->name() == "trial" && reader->isStartElement() ) {
@@ -48,6 +48,8 @@ void DataReader::parseData()
 
             reader->readNext();
     }
+
+    this->file->close();
 
 }
 

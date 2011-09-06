@@ -12,6 +12,7 @@ public:
     DataReader(QFile * file);
     std::vector<ExperimentTrial*> trials();
 private:
+    QFile * file;
     QXmlStreamReader * reader;
     void parseData();
     std::vector<ExperimentTrial*> m_trials;
