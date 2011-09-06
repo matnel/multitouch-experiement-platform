@@ -125,9 +125,10 @@ void ExperimentTrial::setApplication(MultiWidgets::GrabManager *application)
     qDebug() << this->application;
 
     // start tchecking if connection is lost
-    this->firstCheck= new ConnectionCheck(this->first);
+    QFile * file1 = new QFile("./log2.txt");
+    this->firstCheck= new ConnectionCheck(this->first, file1);
     this->firstCheck->start();
-    this->secondCheck = new ConnectionCheck( this->second );
+    this->secondCheck = new ConnectionCheck( this->second, file1);
     this->secondCheck->start();
 
     // start generic log

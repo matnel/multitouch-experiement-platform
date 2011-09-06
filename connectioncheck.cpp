@@ -4,13 +4,21 @@
 #include <QTime>
 #include <MultiWidgets/Widget.hpp>
 
-ConnectionCheck::ConnectionCheck(MultiWidgets::Widget * widget)
+#include <QTextStream>
+
+ConnectionCheck::ConnectionCheck(MultiWidgets::Widget * widget, QFile * logfile)
 {
     this->canvas = widget;
     this->maxFingers = 0;
+    this->log = logfile;
 }
 
 void ConnectionCheck::run() {
+
+    this->log->open( QIODevice::WriteOnly );
+
+    QTextStream out( this->log );
+
     while( this->isRunning() ) {
         // qDebug() << QTime().currentTime().toString("hh:mm:ss:zzz");
         MultiWidgets::Widget * w = canvas;
@@ -19,9 +27,13 @@ void ConnectionCheck::run() {
             this->maxFingers = fingers;
         }
         if( fingers < this->maxFingers ) {
-            qDebug() << "Connection lost!";
+            out << QTime().currentTime().toString("hh:mm:ss:zzz");
+            out << " connection lost!\n";
+            out.flush();
             this->maxFingers = fingers;
         }
         this->msleep(2);
     }
+
+    this->log->close();
 }
