@@ -59,12 +59,6 @@ void ExperimentTrial::createUI()
     this->first->setTarget(x2, y2);
     this->second->setTarget(x1,y1);
 
-    // start tchecking if connection is lost
-    this->firstCheck= new ConnectionCheck(this->first);
-    this->firstCheck->start();
-    this->secondCheck = new ConnectionCheck( this->second );
-    this->secondCheck->start();
-
 }
 
 LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
@@ -126,6 +120,13 @@ void ExperimentTrial::setApplication(MultiWidgets::GrabManager *application)
     qDebug() << "Application";
     qDebug() << this->application;
 
+    // start tchecking if connection is lost
+    this->firstCheck= new ConnectionCheck(this->first);
+    this->firstCheck->start();
+    this->secondCheck = new ConnectionCheck( this->second );
+    this->secondCheck->start();
+
+    // start generic log
     LogThread * log = new LogThread(this, this->application);
     log->start();
 }
