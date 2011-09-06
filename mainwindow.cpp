@@ -1,13 +1,11 @@
 #include "mainwindow.h"
 
 #include <QDebug>
-#include <QFile>
 #include "datareader.h"
 
-MainWindow::MainWindow(MultiWidgets::GrabManager * application)
+MainWindow::MainWindow(MultiWidgets::GrabManager * application, QFile * file, int initial)
 {
-    QFile * f = new QFile("example.xml");
-    DataReader * data = new DataReader( f );
+    DataReader * data = new DataReader( file );
 
     this->trials = data->trials();
 
@@ -25,7 +23,7 @@ MainWindow::MainWindow(MultiWidgets::GrabManager * application)
     this->application = application;
 
     // initial setup
-    this->currentTrial = -1;
+    this->currentTrial = initial;
     this->nextTrial();
 }
 
