@@ -1,4 +1,3 @@
-#!C:\Perl\bin
 use strict;
 
 #file creation
