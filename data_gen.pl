@@ -67,8 +67,8 @@ while ($current_trial <= $total_trials) {
 			print MYFILE "angle=\"$newA\" ";
 			print MYFILE "size=\"$newW\" ";
 			print MYFILE "distance=\"$newS\" ";
-			print MYFILE "xl=\"$newXP\" ";
-			print MYFILE "yl=\"$newYP\" ><\/trial>\n";
+			print MYFILE "x1=\"$newXP\" ";
+			print MYFILE "y1=\"$newYP\" ><\/trial>\n";
 		}
 
 	}
