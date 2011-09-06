@@ -11,6 +11,8 @@
 
 #include "logthread.h"
 
+#include "roundwidget.h"
+
 #include "settings.h"
 
 ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distance, int size, int angle, int x1, int y1)
@@ -84,7 +86,7 @@ LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
 
     this->addChild(a);
 
-    MultiWidgets::Widget * as = new MultiWidgets::Widget();
+    MultiWidgets::Widget * as = new RoundWidget();
     as->setWidth(this->size-10);
     as->setHeight(this->size-10);
     as->setColor(0.5, 0.5, 0, 1);
