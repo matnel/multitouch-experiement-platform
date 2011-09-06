@@ -15,7 +15,9 @@ ConnectionCheck::ConnectionCheck(MultiWidgets::Widget * widget, QFile * logfile)
 
 void ConnectionCheck::run() {
 
-    this->log->open( QIODevice::WriteOnly );
+    if( ! this->log->isOpen() ) {
+        this->log->open( QIODevice::WriteOnly );
+    }
 
     QTextStream out( this->log );
 
