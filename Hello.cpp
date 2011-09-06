@@ -1,27 +1,36 @@
 #include <MultiWidgets/SimpleSDLApplication.hpp>
 
 #include <QDebug>
+#include <QSound>
 
 #include "logthread.h"
 #include "datareader.h"
 #include "experimenttrial.h"
 #include "mainwindow.h"
 
-int main(int argc, char ** argv)
+#include <QDebug>
+
+int main(int argc, char * argv[])
 {
   SDL_Init(SDL_INIT_VIDEO);
 
   MultiWidgets::SimpleSDLApplication app;
 
-  if(!app.simpleInit(argc, argv))
+  if( !app.simpleInit(argc, &argv[0] ) )
     return 1;
 
-  QFile * f = new QFile("example.xml");
-  DataReader * data = new DataReader( f );
+  // default file and default star location
+  QFile * file = new QFile("example.xml");
+  if( argc > 1 ) {
+      file = new QFile( argv[1] );
+  }
 
-  // ExperimentTrial * trial = new ExperimentTrial(10, ExperimentTrial::Clockwise, 10, 100, 0, QPoint(0, 0) );
+  int initial = -1;
+  if( argc > 2 ) {
+      initial = QString(argv[2]).toInt() - 1;
+  }
 
-  MainWindow * main = new MainWindow( app.grabManager() );
+  MainWindow * main = new MainWindow( app.grabManager(), file, initial );
 
   app.root()->addChild( main );
 
