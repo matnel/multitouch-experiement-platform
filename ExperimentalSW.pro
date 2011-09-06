@@ -24,14 +24,16 @@ HEADERS += datareader.h \
     locationawarewidget.h \
     mainwindow.h \
     connectioncheck.h \
-    settings.h
+    settings.h \
+    roundwidget.h
 SOURCES += datareader.cpp \
     experimenttrial.cpp \
     Hello.cpp \
     logthread.cpp \
     locationawarewidget.cpp \
     mainwindow.cpp \
-    connectioncheck.cpp
+    connectioncheck.cpp \
+    roundwidget.cpp
 OTHER_FILES += example.xml \
     licence.txt \
     task_done.wav \
@@ -44,3 +46,5 @@ INCLUDEPATH += $$PWD/../yaml-cpp/build
 DEPENDPATH += $$PWD/../yaml-cpp/build
 
 unix:!macx:!symbian: PRE_TARGETDEPS += $$PWD/../yaml-cpp/build/libyaml-cpp.a
+
+
