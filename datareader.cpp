@@ -8,18 +8,18 @@ DataReader::DataReader(QFile * file)
 {
     this->file = file;
     this->file->open(QFile::ReadOnly);
-    this->reader = new QXmlStreamReader( this->file );
 
     this->parseData();
 }
 
 void DataReader::parseData()
 {
-    int i = 0;
-    while( ! reader->atEnd() ) {
+    QXmlStreamReader reader( this->file );
 
-            if( reader->name() == "trial" && reader->isStartElement() ) {
-                QXmlStreamAttributes attributes = reader->attributes();
+    while( ! reader.atEnd() ) {
+
+            if( reader.name() == "trial" && reader.isStartElement() ) {
+                QXmlStreamAttributes attributes = reader.attributes();
 
                 int id = attributes.value("id").toString().toInt();
 
@@ -42,14 +42,16 @@ void DataReader::parseData()
             }
 
 
-            if( reader->error() ) {
-                qWarning() << "Something wrong with the inpurt file line " + reader->lineNumber() + reader->errorString();
+            if( reader.error() ) {
+                qWarning() << "Something wrong with the inpurt file line " + reader.lineNumber() + reader.errorString();
             }
 
-            reader->readNext();
+            reader.readNext();
     }
 
     this->file->close();
+
+    delete this->file;
 
 }
 
