@@ -14,12 +14,13 @@ class LogThread : public QThread
 public:
     LogThread(MultiWidgets::Widget *widget, MultiWidgets::GrabManager *grapManager, QFile * file);
     void run();
+    int exit(int retcode = 0);
 private:
     MultiWidgets::Widget * canvas;
     MultiWidgets::GrabManager * gm;
     YAML::Emitter out;
-    QTextStream * fileout;
     QFile * file;
+    bool running;
 
 };
 

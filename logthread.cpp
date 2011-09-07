@@ -18,11 +18,11 @@ void LogThread::run() {
 
     file->open( QIODevice::WriteOnly );
 
-    this->fileout = new QTextStream( this->file );
+    QTextStream outF( this->file );
 
-    *this->fileout << "";
+    outF << "";
 
-    while( this->isRunning() ) {
+    while( ! this->running) {
 
         out << YAML::BeginSeq;
 
@@ -58,11 +58,18 @@ void LogThread::run() {
         out << YAML::EndMap;
         out << YAML::EndSeq;
 
-        * this->fileout << out.c_str();
-        this->fileout->flush();
+        outF << out.c_str();
+        outF.flush();
 
         this->msleep(2);
     }
 
+    qDebug() << "Thread closed!";
     this->file->close();
+}
+
+int LogThread::exit(int retcode)
+{
+    this->running = false;
+    return retcode;
 }
