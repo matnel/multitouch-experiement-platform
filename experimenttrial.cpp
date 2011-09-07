@@ -33,14 +33,16 @@ ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distan
     this->setAllowRotation(false);
 
     this->setInputTransparent(true);
-    this->setColor(1, 1, 1, 1);
+    this->setColor(0, 0, 0, 1);
 
-    this->setSize(1000, 1000);
+    this->setSize(1920, 1080);
 
     // rotation direction
     MultiWidgets::ImageWidget * rotation = new MultiWidgets::ImageWidget();
     rotation->setFixed(true);
     rotation->setSize(100, 100);
+
+    rotation->setColor(1,1,1,1);
 
     if( this->direction == ExperimentTrial::Clockwise ) {
         rotation->load("clockwise.png");
@@ -107,9 +109,9 @@ void ExperimentTrial::processMessage(const char *id, Radiant::BinaryData &data)
         if( this->first->isTargetReached() && this->second->isTargetReached() ) {
 
             // close logs
-            this->firstCheck->quit();
-            this->secondCheck->quit();
-            this->log->quit();
+            this->firstCheck->exit();
+            this->secondCheck->exit();
+            this->log->exit();
 
             this->hide();
             QSound::play("task_done.wav");
@@ -136,4 +138,15 @@ void ExperimentTrial::setApplication(MultiWidgets::GrabManager *application)
     QFile * file = new QFile( path + "log" );
     this->log = new LogThread(this, this->application, file );
     this->log->start();
+}
+
+ExperimentTrial::~ExperimentTrial() {
+
+    // remove threads
+    delete this->firstCheck;
+    delete this->secondCheck;
+    delete this->log;
+
+    // remove content
+    this->deleteChildren();
 }
