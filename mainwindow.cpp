@@ -5,9 +5,9 @@
 
 MainWindow::MainWindow(MultiWidgets::GrabManager * application, QFile * file, int initial)
 {
-    DataReader * data = new DataReader( file );
+    DataReader data( file );
 
-    this->trials = data->trials();
+    this->trials = data.trials();
 
     this->setFixed(true);
     this->setAllowRotation(false);
