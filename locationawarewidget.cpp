@@ -47,14 +47,15 @@ void LocationAwareWidget::input(MultiWidgets::GrabManager &gm, float dt)
         }
 
     }
-    int ERROR_MARGIN = 50;
+    int ERROR_MARGIN = 15;
 
-    if( qAbs( this->location().y - this->targetY ) <= ERROR_MARGIN && qAbs( this->location().x - this->targetX ) <= ERROR_MARGIN ) {
+    if( qAbs( ( this->location().y + this->width() / 2)  - this->targetY ) <= ERROR_MARGIN && qAbs( ( this->location().x + + this->width() / 2) - this->targetX ) <= ERROR_MARGIN ) {
         if( DEBUG ) {
             this->setColor(0.5,0,1,1);
         }
         // purukumia! ## todo fix
         if( !this->targetReached ) {
+            qDebug() << "Target ok!";
             this->targetReached = true;
             eventSend("target_reached");
         }
