@@ -3,6 +3,8 @@
 #include <QDebug>
 #include "datareader.h"
 
+#include "delaydaddthread.h"
+
 MainWindow::MainWindow(MultiWidgets::GrabManager * application, QFile * file, int initial)
 {
     DataReader data( file );
@@ -52,7 +54,8 @@ void MainWindow::nextTrial()
     QString s = QString::number( this->currentTrial + 1) + " of " + QString::number( this->trials.size() );
     this->status->setText( s.toStdString() );
 
-    this->addChild(trial);
+    DelaydAddThread * thread = new DelaydAddThread(this, trial);
+    thread->start();
 }
 
 void MainWindow::processMessage(const char *id, Radiant::BinaryData &data)
