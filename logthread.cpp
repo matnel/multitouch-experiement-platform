@@ -62,7 +62,7 @@ void LogThread::run() {
         outF << out.c_str();
         outF.flush();
 
-        this->msleep(2);
+        this->msleep(7);
     }
 
     qDebug() << "Thread closed!";
