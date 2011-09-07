@@ -49,6 +49,10 @@ ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distan
     } else {
         rotation->load("counterclockwise.png");
     }
+
+    int max = distance > 200 ? distance : 200;
+
+    rotation->setLocation( x1 - max, y1 - max);
     this->addChild( rotation );
 }
 
