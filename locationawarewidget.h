@@ -5,14 +5,16 @@
 #include <MultiWidgets/TextBox.hpp>
 #include <MultiWidgets/GrabManager.hpp>
 
-class LocationAwareWidget : public MultiWidgets::Widget
+#include "roundwidget.h"
+
+class LocationAwareWidget : public RoundWidget
 {
 public:
     LocationAwareWidget();
     virtual void interactionEnd (MultiWidgets::GrabManager &input);
     virtual void input(MultiWidgets::GrabManager &gm, float dt);
     virtual void grabFinger (long fingerId, MultiWidgets::GrabManager & gm);
-    virtual void grabHand(long handId, MultiWidgets::GrabManager & gm);
+    virtual void grabHand(long handId, MultiWidgets::GrabManager & gm);    
     void setTarget(int x, int y);
     bool isTargetReached();
 private:
