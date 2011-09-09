@@ -13,6 +13,11 @@ LogThread::LogThread(MultiWidgets::Widget * widget, MultiWidgets::GrabManager * 
     this->gm = grapManager;
     this->file = file;
 }
+    
+void LogThread::setFingerData( const FingerData & data) {
+  Radiant::Guard g(mutex);
+  fingerdata = data;
+}
 
 void LogThread::run() {
 
@@ -23,6 +28,14 @@ void LogThread::run() {
     outF << "";
 
     while( ! this->running ) {
+        this->msleep(7);
+
+        mutex.lock();
+        FingerData fd = fingerdata;
+        mutex.unlock();
+
+        if(fd.empty())
+          continue;
 
         out << YAML::BeginSeq;
 
@@ -33,27 +46,22 @@ void LogThread::run() {
         out << YAML::Key << "fingers";
         out << YAML::Value << YAML::BeginSeq;
 
-        for ( MultiWidgets::Widget::ChildIterator child = canvas->childBegin(); child != canvas->childEnd(); ++child) {
+        for(FingerData::iterator it = fd.begin(); it != fd.end(); ++it) {
+		out << YAML::BeginMap;
 
-           MultiWidgets::Widget::FingerIds::iterator start = child->grabFingerBegin();
-           MultiWidgets::Widget::FingerIds::iterator last = child->grabFingerEnd();
+		out << YAML::Key << "id";
+		qDebug() << "id" << it->first;
+		out << YAML::Key << it->first;
+		out << YAML::Key << "x";
+		out << YAML::Value << it->second.x;
+		out << YAML::Key << "y";
+		out << YAML::Value << it->second.y;
 
-           for( MultiWidgets::Widget::FingerIds::iterator finger = start; finger != last; finger++ ) {
-                    out << YAML::BeginMap;
+		qDebug() << it->second.y;
 
-                    out << YAML::Key << "id";
-                    qDebug() << "id" << *finger;
-                    out << YAML::Key << *finger;
-                    out << YAML::Key << "x";
-                    out << YAML::Value << this->gm->latestFingerTipLocation( *finger ).x;
-                    out << YAML::Key << "y";
-                    out << YAML::Value << this->gm->latestFingerTipLocation( *finger ).y;
-
-                    qDebug() << this->gm->latestFingerTipLocation( *finger ).y;
-
-                    out << YAML::EndMap;
-            }
-         }
+		out << YAML::EndMap;
+        }
+        
         out << YAML::EndSeq;
 
         out << YAML::EndMap;
@@ -62,7 +70,6 @@ void LogThread::run() {
         outF << out.c_str();
         outF.flush();
 
-        this->msleep(7);
     }
 
     qDebug() << "Thread closed!";

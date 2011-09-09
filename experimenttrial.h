@@ -15,8 +15,10 @@ class ExperimentTrial : public MultiWidgets::Widget
 public:
     enum RotationDirection {Clockwise, Counterclockwise};
     ExperimentTrial( int id, RotationDirection direction, int distance, int size, int angle, int x1, int y1);
+    ~ExperimentTrial();
     void setApplication( MultiWidgets::GrabManager * application);
 
+    virtual void input(MultiWidgets::GrabManager & gm, float dt);
 private:
     int id;
     RotationDirection direction;

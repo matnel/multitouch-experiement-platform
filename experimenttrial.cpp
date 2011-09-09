@@ -56,6 +56,25 @@ ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distan
     this->addChild( rotation );
 }
 
+void ExperimentTrial::input(MultiWidgets::GrabManager & gm, float dt) {
+  MultiWidgets::Widget::input(gm, dt);
+
+  LogThread::FingerData fd; 
+  
+  for(ChildIterator it=childBegin(), end = childEnd(); it != end; ++it) {
+    MultiWidgets::Widget::FingerIds::iterator start = it->grabFingerBegin();
+    MultiWidgets::Widget::FingerIds::iterator last = it->grabFingerEnd();
+
+    for( MultiWidgets::Widget::FingerIds::iterator finger = start; finger != last; finger++ ) {
+      MultiTouch::Finger f = gm.findFinger(*finger);
+      if(f.isNull())
+        continue;
+      fd[f.id()] = f.tipLocation();
+    }
+  }
+  this->log->setFingerData(fd);
+}
+
 void ExperimentTrial::createUI()
 {
 
