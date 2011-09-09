@@ -51,7 +51,7 @@ void LogThread::run() {
 
 		out << YAML::Key << "id";
 		qDebug() << "id" << it->first;
-		out << YAML::Key << it->first;
+		out << YAML::Value << it->first;
 		out << YAML::Key << "x";
 		out << YAML::Value << it->second.x;
 		out << YAML::Key << "y";
