@@ -17,10 +17,9 @@ void RoundWidget::renderContent(Luminous::RenderContext &render)
     int r = this->width() / 2;
 
     // TODO: Should use the set colors!
-    glColor4f( red, green, blue, alpha );
+    float rgba[] = {red, green, blue, alpha };
 
-    Luminous::Utils::glFilledCirclef( this->location().x +  r, this->location().y + r, r, 1000000 );
-
+    render.drawCircle(0.5f*this->size(), r, rgba);
 }
 
 void RoundWidget::setColor(float r, float g, float b, float a)
