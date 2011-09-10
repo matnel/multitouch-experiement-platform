@@ -165,6 +165,8 @@ void ExperimentTrial::setApplication(MultiWidgets::GrabManager *application)
 
 ExperimentTrial::~ExperimentTrial() {
 
+    qDebug() << "ExperimentTrial has been deleted!";
+
     // remove threads
     delete this->firstCheck;
     delete this->secondCheck;
@@ -172,4 +174,6 @@ ExperimentTrial::~ExperimentTrial() {
 
     // remove content
     this->deleteChildren();
+
+    delete this;
 }
