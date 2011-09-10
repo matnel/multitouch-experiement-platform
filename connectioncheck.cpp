@@ -15,13 +15,15 @@ ConnectionCheck::ConnectionCheck(MultiWidgets::Widget * widget, QFile * logfile)
 
 void ConnectionCheck::run() {
 
+    this->runs = true;
+
     if( ! this->log->isOpen() ) {
         this->log->open( QIODevice::WriteOnly );
     }
 
     QTextStream out( this->log );
 
-    while( this->isRunning() ) {
+    while( this->runs ) {
         // qDebug() << QTime().currentTime().toString("hh:mm:ss:zzz");
         MultiWidgets::Widget * w = canvas;
         int fingers = w->grabFingerCount();
@@ -38,4 +40,20 @@ void ConnectionCheck::run() {
     }
 
     this->log->close();
+}
+
+int ConnectionCheck::exit(int retcode)
+{
+    this->runs = false;
+    return retcode;
+}
+
+ConnectionCheck::~ConnectionCheck()
+{
+    // close thread
+    this->runs = false;
+
+    // make sure log is close
+    log->close();
+    delete log;
 }

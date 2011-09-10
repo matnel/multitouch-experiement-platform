@@ -12,10 +12,13 @@ class ConnectionCheck : public QThread
 public:
     ConnectionCheck(MultiWidgets::Widget *widget, QFile * logfile);
     void run();
+    int exit(int retcode = 0);
+    ~ConnectionCheck();
 private:
     MultiWidgets::Widget * canvas;
     int maxFingers;
     QFile * log;
+    bool runs;
 };
 
 #endif // LOGTHREAD_H
