@@ -25,7 +25,8 @@ HEADERS += datareader.h \
     mainwindow.h \
     connectioncheck.h \
     settings.h \
-    roundwidget.h
+    roundwidget.h \
+    delaydaddthread.h
 SOURCES += datareader.cpp \
     experimenttrial.cpp \
     Hello.cpp \
@@ -33,7 +34,8 @@ SOURCES += datareader.cpp \
     locationawarewidget.cpp \
     mainwindow.cpp \
     connectioncheck.cpp \
-    roundwidget.cpp
+    roundwidget.cpp \
+    delaydaddthread.cpp
 OTHER_FILES += example.xml \
     licence.txt \
     task_done.wav \
