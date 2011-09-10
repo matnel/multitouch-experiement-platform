@@ -34,7 +34,6 @@ void MainWindow::nextTrial()
     ExperimentTrial * trial;;
     trial = trials[ this->currentTrial ];
     // causes seg fault!
-    // this->deleteChild(trial);
 
     this->currentTrial++;
 
@@ -54,11 +53,9 @@ void MainWindow::nextTrial()
     QString s = QString::number( this->currentTrial + 1) + " of " + QString::number( this->trials.size() );
     this->status->setText( s.toStdString() );
 
-    addChild(trial);
-#if 0
     DelaydAddThread * thread = new DelaydAddThread(this, trial);
     thread->start();
-#endif
+
 }
 
 void MainWindow::processMessage(const char *id, Radiant::BinaryData &data)
