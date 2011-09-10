@@ -16,7 +16,10 @@ class LogThread : public QThread
 {
 public:
     typedef std::map<long, Nimble::Vector2> FingerData;
+
     LogThread(MultiWidgets::Widget *widget, MultiWidgets::GrabManager *grapManager, QFile * file);
+    ~LogThread();
+
     void run();
     int exit(int retcode = 0);
 

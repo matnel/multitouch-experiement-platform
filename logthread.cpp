@@ -81,3 +81,13 @@ int LogThread::exit(int retcode)
     this->running = false;
     return retcode;
 }
+
+LogThread::~LogThread()
+{
+    // close thread if not closed
+    this->exit(-1);
+
+    // close file and remove it
+    this->file->close();
+    delete file;
+}
