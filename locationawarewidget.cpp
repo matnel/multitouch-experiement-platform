@@ -48,7 +48,7 @@ void LocationAwareWidget::input(MultiWidgets::GrabManager &gm, float dt)
 
     }
 
-    int ERROR_MARGIN = 15;
+    int ERROR_MARGIN = 20;
 
     if( qAbs( ( this->location().y + this->width() / 2)  - this->targetY ) <= ERROR_MARGIN && qAbs( ( this->location().x + + this->width() / 2) - this->targetX ) <= ERROR_MARGIN ) {
         if( DEBUG ) {
