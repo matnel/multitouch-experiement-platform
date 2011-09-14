@@ -17,9 +17,11 @@ public:
     ExperimentTrial( int id, RotationDirection direction, int distance, int size, int angle, int x1, int y1);
     ~ExperimentTrial();
     void setApplication( MultiWidgets::GrabManager * application);
+    void setFilename(const std::string & name) { filename = name; }
 
     virtual void input(MultiWidgets::GrabManager & gm, float dt);
 private:
+    std::string filename;
     int id;
     RotationDirection direction;
     int size;

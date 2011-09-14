@@ -6,7 +6,7 @@
 #include <MultiWidgets/GrabManager.hpp>
 #include <QTextStream>
 #include <QFile>
-
+#include <queue>
 #include <Radiant/Mutex.hpp>
 
 #include "yaml-cpp/yaml.h"
@@ -23,6 +23,8 @@ public:
     void run();
     int exit(int retcode = 0);
 
+    void append(const std::string & str);
+
     void setFingerData( const FingerData & data);
 private:
     MultiWidgets::Widget * canvas;
@@ -30,6 +32,8 @@ private:
     YAML::Emitter out;
     QFile * file;
     bool running;
+
+    std::queue<std::string> toWrite;
     
     Radiant::Mutex mutex;
     FingerData fingerdata;

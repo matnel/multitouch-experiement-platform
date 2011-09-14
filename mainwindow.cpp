@@ -5,9 +5,11 @@
 
 #include "delaydaddthread.h"
 
-MainWindow::MainWindow(MultiWidgets::GrabManager * application, QFile * file, int initial)
+MainWindow::MainWindow(MultiWidgets::GrabManager * application, const std::string & fileName, int initial)
 {
-    DataReader data( file );
+    QFile f(fileName.c_str());
+
+    DataReader data( &f );
 
     this->trials = data.trials();
 
@@ -23,10 +25,18 @@ MainWindow::MainWindow(MultiWidgets::GrabManager * application, QFile * file, in
     this->status->setLocation(800,0);
 
     this->application = application;
+    this->filename = fileName;
 
     // initial setup
     this->currentTrial = initial;
     this->nextTrial();
+}
+
+void MainWindow::update(float dt)
+{
+    if(nextTrialTime.sinceSecondsD() > 1.0f)
+        if(!hasChild(trials[ this->currentTrial ]))
+            addChild(trials[ this->currentTrial ]);
 }
 
 void MainWindow::nextTrial()
@@ -47,15 +57,20 @@ void MainWindow::nextTrial()
 
     trial = trials[ this->currentTrial ];
     trial->show();
+    trial->setFilename(filename);
     trial->setApplication( this->application );
+
     trial->eventAddListener("next_trial", "next_trial", this );
+
+    nextTrialTime = Radiant::TimeStamp::getTime();
 
     QString s = QString::number( this->currentTrial + 1) + " of " + QString::number( this->trials.size() );
     this->status->setText( s.toStdString() );
 
+    /*
     DelaydAddThread * thread = new DelaydAddThread(this, trial);
     thread->start();
-
+    */
 }
 
 void MainWindow::processMessage(const char *id, Radiant::BinaryData &data)

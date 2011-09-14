@@ -3,17 +3,21 @@
 #include "locationawarewidget.h"
 
 #include "MultiWidgets/ImageWidget.hpp"
+#include "MultiWidgets/StayInsideParentOperator.hpp"
 
 #include <QtCore/qmath.h>
 #include <QDebug>
-#include <QSound>
 #include <QDateTime>
+
+#include <Resonant/DSPNetwork.hpp>
+#include <Resonant/ModuleSamplePlayer.hpp>
 
 #include "logthread.h"
 
 #include "roundwidget.h"
 
 #include "settings.h"
+#include <sstream>
 
 ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distance, int size, int angle, int x1, int y1)
 {
@@ -59,8 +63,14 @@ ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distan
 void ExperimentTrial::input(MultiWidgets::GrabManager & gm, float dt) {
   MultiWidgets::Widget::input(gm, dt);
 
-  LogThread::FingerData fd; 
-  
+
+  std::stringstream ss;
+  ss << "- time: ";
+  ss << QTime().currentTime().toString("hh:mm:ss:zzz").toStdString() + "\n";
+
+  ss << "  fingers:\n";
+
+  int count = 0;
   for(ChildIterator it=childBegin(), end = childEnd(); it != end; ++it) {
     MultiWidgets::Widget::FingerIds::iterator start = it->grabFingerBegin();
     MultiWidgets::Widget::FingerIds::iterator last = it->grabFingerEnd();
@@ -69,10 +79,20 @@ void ExperimentTrial::input(MultiWidgets::GrabManager & gm, float dt) {
       MultiTouch::Finger f = gm.findFinger(*finger);
       if(f.isNull())
         continue;
-      fd[f.id()] = f.tipLocation();
+
+      ss << "    - id: " << f.id() << "\n";
+      ss << "      position: " << f.tipLocation() << "\n";
+      ++count;
     }
   }
-  this->log->setFingerData(fd);
+  if(count == 0)
+    return;
+
+  ss << "  circles:\n";
+  ss << "    - " << this->first->location() << "\n";
+  ss << "    - " << this->second->location() << "\n";
+
+  this->log->append(ss.str());
 }
 
 void ExperimentTrial::createUI()
@@ -93,6 +113,7 @@ LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
 {
     LocationAwareWidget * a = new LocationAwareWidget();
 
+    a->addOperator(new MultiWidgets::StayInsideParentOperator);
     a->setWidth(this->size);
     a->setHeight(this->size);
 
@@ -130,14 +151,21 @@ void ExperimentTrial::processMessage(const char *id, Radiant::BinaryData &data)
 {
     if( strcmp( id , "check_targets") == 0 ) {
         if( this->first->isTargetReached() && this->second->isTargetReached() ) {
-
+            this->log->append("Targets reached\n");
             // close logs
             this->firstCheck->exit();
             this->secondCheck->exit();
             this->log->exit();
 
             this->hide();
-            QSound::play("task_done.wav");
+
+            Resonant::ModuleSamplePlayer * player = Resonant::DSPNetwork::instance()->samplePlayer();
+            player->playSample("task_done.wav",
+                               1.0f,
+                               1.0f,
+                               0,
+                               0,
+                               false);
             eventSend("next_trial");
         }
     }
@@ -148,7 +176,7 @@ void ExperimentTrial::setApplication(MultiWidgets::GrabManager *application)
     this->application = application;
 
     // start logging
-    QString path = "./logs/log-" + QDateTime::currentDateTime().toString("yyyyMMddhhmm") + "-" + QString::number( this->id ) + "-";
+    QString path = "./logs/log-" + QDateTime::currentDateTime().toString("yyyyMMddhhmm") + "-" + QString::fromStdString(filename) + "-" + QString::number( this->id ) + "-";
 
     // start checking if connection is lost
     QFile * file1 = new QFile( path + "connection" );

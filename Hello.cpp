@@ -20,9 +20,10 @@ int main(int argc, char * argv[])
     return 1;
 
   // default file and default star location
-  QFile * file = new QFile("example.xml");
+  std::string file = "example.xml";
+
   if( argc > 1 ) {
-      file = new QFile( argv[1] );
+      file = argv[1];
   }
 
   int initial = -1;

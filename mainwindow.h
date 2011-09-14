@@ -9,14 +9,18 @@
 class MainWindow : public MultiWidgets::Widget
 {
 public:
-    MainWindow(MultiWidgets::GrabManager * application, QFile * file, int initial);
+    MainWindow(MultiWidgets::GrabManager * application, const std::string & fileName, int initial);
+
+    virtual void update(float dt);
 private:
+    std::string filename;
     int currentTrial;
     void nextTrial();
     std::vector<ExperimentTrial *> trials;
     void processMessage(const char *id, Radiant::BinaryData &data);
     MultiWidgets::TextBox * status;
     MultiWidgets::GrabManager * application;
+    Radiant::TimeStamp nextTrialTime;
 };
 
 #endif // MAINWINDOW_H

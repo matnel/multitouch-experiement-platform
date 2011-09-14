@@ -51,7 +51,7 @@ void DataReader::parseData()
 
     // clean up memory
     this->file->close();
-    delete this->file;
+    //delete this->file;
 
 }
 

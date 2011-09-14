@@ -1,9 +1,9 @@
 #include "logthread.h"
-
 #include <QDebug>
 #include <QTime>
 #include <MultiWidgets/Widget.hpp>
 #include <QFile>
+#include <Radiant/Sleep.hpp>
 
 #include "yaml-cpp/yaml.h"
 
@@ -19,15 +19,31 @@ void LogThread::setFingerData( const FingerData & data) {
   fingerdata = data;
 }
 
+void LogThread::append(const std::string & str) {
+    Radiant::Guard g(mutex);
+    toWrite.push(str);
+}
+
 void LogThread::run() {
 
     file->open( QIODevice::WriteOnly );
 
     QTextStream outF( this->file );
 
-    outF << "";
+    //outF << "";
 
-    while( ! this->running ) {
+    while( ! this->running || !toWrite.empty()) {
+        if(toWrite.empty()) {
+            Radiant::Sleep::sleepMs(5);
+            continue;
+        }
+        std::string write = toWrite.front();
+        toWrite.pop();
+
+        outF << write.c_str();
+        outF.flush();
+    }
+#if 0
         this->msleep(7);
 
         mutex.lock();
@@ -71,7 +87,7 @@ void LogThread::run() {
         outF.flush();
 
     }
-
+#endif
     qDebug() << "Thread closed!";
     this->file->close();
 }
