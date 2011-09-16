@@ -17,13 +17,21 @@ public:
   App() : mw(0) {}
   bool keyPressEvent(int ascii, int special, int modifiers)
   {
-    if(ascii == 'h' && mw) {
+    LogThread * logger = 0;
+    if(mw) {
       if(!mw->getCurrentTrial())
         return true;
-      LogThread * logger = mw->getCurrentTrial()->getLogger();
+      logger = mw->getCurrentTrial()->getLogger();
       if(!logger)
         return true;
+    }
+    if(ascii == 'h' && logger) {
+
       logger->append("Subjectively hard trial!\n");
+      return true;
+    } else if(ascii == 'n' && logger) {
+      mw->nextTrial();
+      logger->append("Skipping trial!\n");
       return true;
     } else {
       return MultiWidgets::SimpleSDLApplication::keyPressEvent(ascii, special, modifiers);

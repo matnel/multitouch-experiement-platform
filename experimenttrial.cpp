@@ -20,7 +20,9 @@
 #include <sstream>
 
 ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distance, int size, int angle, int x1, int y1)
-  : logger(0)
+  : logger(0),
+  first(0),
+  second(0)
 {  
     this->id = id;
     this->direction = direction;
@@ -166,17 +168,21 @@ LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
     return a;
 }
 
+void ExperimentTrial::finish()
+{
+  if(this->logger)
+    this->logger->exit();
+
+  this->hide();
+}
+
 void ExperimentTrial::processMessage(const char *id, Radiant::BinaryData &data)
 {
     if( strcmp( id , "check_targets") == 0 ) {
         if( this->first->isTargetReached() && this->second->isTargetReached() ) {
             this->logger->append("Targets reached\n");
             // close logs
-            this->firstCheck->exit();
-            this->secondCheck->exit();
-            this->logger->exit();
-
-            this->hide();
+            finish();
 
             Resonant::ModuleSamplePlayer * player = Resonant::DSPNetwork::instance()->samplePlayer();
             player->playSample("task_done.wav",
@@ -199,10 +205,6 @@ void ExperimentTrial::setApplication(MultiWidgets::GrabManager *application)
 
     // start checking if connection is lost
     QFile * file1 = new QFile( path + "connection" );
-    this->firstCheck= new ConnectionCheck(this->first, file1);
-    this->firstCheck->start();
-    this->secondCheck = new ConnectionCheck( this->second, file1);
-    this->secondCheck->start();
 
     // start generic log
     QFile * file = new QFile( path + "log" );
@@ -218,12 +220,5 @@ void ExperimentTrial::setApplication(MultiWidgets::GrabManager *application)
 ExperimentTrial::~ExperimentTrial()
 {
     // remove threads
-    delete this->firstCheck;
-    delete this->secondCheck;
     delete this->logger;
-
-    // remove content
-    this->deleteChildren();
-
-    delete this;
 }

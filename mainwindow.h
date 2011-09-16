@@ -13,10 +13,11 @@ public:
 
     ExperimentTrial * getCurrentTrial();
     virtual void update(float dt);
+    void nextTrial();
+
 private:
     std::string filename;
-    int currentTrial;
-    void nextTrial();
+    int currentTrial;    
     std::vector<ExperimentTrial *> trials;
     void processMessage(const char *id, Radiant::BinaryData &data);
     MultiWidgets::TextBox * status;

@@ -19,6 +19,7 @@ public:
     void setApplication( MultiWidgets::GrabManager * application);
     void setFilename(const std::string & name) { filename = name; }
 
+    void finish();
 
     LogThread * getLogger() { return logger; }
     virtual void input(MultiWidgets::GrabManager & gm, float dt);
@@ -37,10 +38,7 @@ private:
 
     LocationAwareWidget * first;
     LocationAwareWidget * second;
-
-    ConnectionCheck * firstCheck;
-    ConnectionCheck * secondCheck;
-    LogThread * logger;
+  LogThread * logger;
 
     MultiWidgets::GrabManager * application;
 

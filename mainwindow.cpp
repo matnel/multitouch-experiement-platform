@@ -21,6 +21,7 @@ MainWindow::MainWindow(MultiWidgets::GrabManager * application, const std::strin
 
     this->status = new MultiWidgets::TextBox();
     this->status->setText("");
+    this->status->setFixed(true);
     this->addChild( this->status );
     this->status->setLocation(800,0);
 
@@ -46,10 +47,13 @@ void MainWindow::update(float dt)
 
 void MainWindow::nextTrial()
 {
-    ExperimentTrial * trial;;
+    ExperimentTrial * trial;
     trial = trials[ this->currentTrial ];
-    // causes seg fault!
 
+    if(currentTrial > 0) {
+      ExperimentTrial * current = trials[ currentTrial-1 ];
+      current->finish();
+    }
     this->currentTrial++;
 
     // when finished, show finished text
