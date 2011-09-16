@@ -20,7 +20,8 @@
 #include <sstream>
 
 ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distance, int size, int angle, int x1, int y1)
-{
+  : logger(0)
+{  
     this->id = id;
     this->direction = direction;
 
@@ -58,6 +59,10 @@ ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distan
 
     rotation->setLocation( x1 - max, y1 - max);
     this->addChild( rotation );
+
+
+    // add logs
+
 }
 
 void ExperimentTrial::input(MultiWidgets::GrabManager & gm, float dt) {
@@ -85,14 +90,25 @@ void ExperimentTrial::input(MultiWidgets::GrabManager & gm, float dt) {
       ++count;
     }
   }
-  if(count == 0)
-    return;
 
   ss << "  circles:\n";
   ss << "    - " << this->first->location() << "\n";
   ss << "    - " << this->second->location() << "\n";
 
-  this->log->append(ss.str());
+
+
+  bool lost1 = first->isContactLost();
+  bool lost2 = second->isContactLost();
+  if(count == 0 && !lost1 && !lost2) {
+    return;
+  }
+  if(lost1 || lost2) {
+    ss << "  contact_lost:\n";
+    ss << "    - circle1: " << lost1 << "\n";
+    ss << "    - circle2: " << lost2 << "\n";
+  }
+
+  this->logger->append(ss.str());
 }
 
 void ExperimentTrial::createUI()
@@ -107,15 +123,20 @@ void ExperimentTrial::createUI()
     this->first->setTarget(x2, y2);
     this->second->setTarget(x1,y1);
 
+    this->first->setDefaultColor(1,0,0);
+    this->second->setDefaultColor(0.5, 0.5, 0);
+
 }
 
 LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
 {
     LocationAwareWidget * a = new LocationAwareWidget();
 
+    a->setHeight( size );
+    a->setWidth( size );
+
     a->addOperator(new MultiWidgets::StayInsideParentOperator);
-    a->setWidth(this->size);
-    a->setHeight(this->size);
+    a->setCenterLocation( Nimble::Vector2(x, y) );
 
     if( DEBUG ) {
         a->setColor(1,0,0,50);
@@ -125,8 +146,6 @@ LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
     a->setVelocity(0,0);
 
     a->setInputFlags(MultiWidgets::Widget::INPUT_MOTION_XY);
-
-    a->setCenterLocation( Nimble::Vector2(x, y) );
 
     a->eventAddListener("target_reached", "check_targets", this);
 
@@ -151,11 +170,11 @@ void ExperimentTrial::processMessage(const char *id, Radiant::BinaryData &data)
 {
     if( strcmp( id , "check_targets") == 0 ) {
         if( this->first->isTargetReached() && this->second->isTargetReached() ) {
-            this->log->append("Targets reached\n");
+            this->logger->append("Targets reached\n");
             // close logs
             this->firstCheck->exit();
             this->secondCheck->exit();
-            this->log->exit();
+            this->logger->exit();
 
             this->hide();
 
@@ -187,8 +206,13 @@ void ExperimentTrial::setApplication(MultiWidgets::GrabManager *application)
 
     // start generic log
     QFile * file = new QFile( path + "log" );
-    this->log = new LogThread(this, this->application, file );
-    this->log->start();
+    this->logger = new LogThread(this, this->application, file );
+    this->logger->start();
+
+
+    QString header( QString::number( this->id ) + " >> x " + QString::number( this->x1 ) + " >> y " + QString::number( this->y1 ) + " >> d " + QString::number( this->distance ) + " >> size " + QString::number( this->size ) + " >> angle " + QString::number( this->angle ) );
+    this->logger->append( header.toStdString() );
+
 }
 
 ExperimentTrial::~ExperimentTrial()
@@ -196,7 +220,7 @@ ExperimentTrial::~ExperimentTrial()
     // remove threads
     delete this->firstCheck;
     delete this->secondCheck;
-    delete this->log;
+    delete this->logger;
 
     // remove content
     this->deleteChildren();

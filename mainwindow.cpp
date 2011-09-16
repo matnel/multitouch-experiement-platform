@@ -32,6 +32,11 @@ MainWindow::MainWindow(MultiWidgets::GrabManager * application, const std::strin
     this->nextTrial();
 }
 
+ExperimentTrial * MainWindow::getCurrentTrial()
+{
+  return trials[ currentTrial ];
+}
+
 void MainWindow::update(float dt)
 {
     if(nextTrialTime.sinceSecondsD() > 1.0f)

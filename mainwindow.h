@@ -11,6 +11,7 @@ class MainWindow : public MultiWidgets::Widget
 public:
     MainWindow(MultiWidgets::GrabManager * application, const std::string & fileName, int initial);
 
+    ExperimentTrial * getCurrentTrial();
     virtual void update(float dt);
 private:
     std::string filename;

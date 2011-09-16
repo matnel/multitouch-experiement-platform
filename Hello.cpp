@@ -10,11 +10,35 @@
 
 #include <QDebug>
 
+
+class App : public MultiWidgets::SimpleSDLApplication
+{
+public:
+  App() : mw(0) {}
+  bool keyPressEvent(int ascii, int special, int modifiers)
+  {
+    if(ascii == 'h' && mw) {
+      if(!mw->getCurrentTrial())
+        return true;
+      LogThread * logger = mw->getCurrentTrial()->getLogger();
+      if(!logger)
+        return true;
+      logger->append("Subjectively hard trial!\n");
+      return true;
+    } else {
+      return MultiWidgets::SimpleSDLApplication::keyPressEvent(ascii, special, modifiers);
+    }
+  }
+  void setMainWindow(MainWindow * win) { mw = win; }
+private:
+  MainWindow * mw;
+};
+
 int main(int argc, char * argv[])
 {
   SDL_Init(SDL_INIT_VIDEO);
 
-  MultiWidgets::SimpleSDLApplication app;
+  App app;
 
   if( !app.simpleInit(argc, &argv[0] ) )
     return 1;
@@ -32,6 +56,8 @@ int main(int argc, char * argv[])
   }
 
   MainWindow * main = new MainWindow( app.grabManager(), file, initial );
+
+  app.setMainWindow(main);
 
   app.root()->addChild( main );
 

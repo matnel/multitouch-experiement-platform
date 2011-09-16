@@ -19,6 +19,8 @@ public:
     void setApplication( MultiWidgets::GrabManager * application);
     void setFilename(const std::string & name) { filename = name; }
 
+
+    LogThread * getLogger() { return logger; }
     virtual void input(MultiWidgets::GrabManager & gm, float dt);
 private:
     std::string filename;
@@ -38,7 +40,7 @@ private:
 
     ConnectionCheck * firstCheck;
     ConnectionCheck * secondCheck;
-    LogThread * log;
+    LogThread * logger;
 
     MultiWidgets::GrabManager * application;
 
