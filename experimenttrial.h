@@ -21,6 +21,7 @@ public:
 
     void finish();
 
+    virtual void renderContent(Luminous::RenderContext & r);
     LogThread * getLogger() { return logger; }
     virtual void input(MultiWidgets::GrabManager & gm, float dt);
 private:
@@ -30,8 +31,7 @@ private:
     int size;
     double angle;
     int distance;
-    int x1;
-    int y1;
+    Nimble::Vector2 target1, target2;
 
     void createUI();
     LocationAwareWidget * createMovable(int x, int y);

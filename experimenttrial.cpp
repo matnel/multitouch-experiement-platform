@@ -31,8 +31,8 @@ ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distan
     this->size = size;
     this->angle = angle / 180.0 * M_PI;
 
-    this->x1 = x1;
-    this->y1 = y1;
+    this->target1 = Nimble::Vector2(x1,y1);
+    this->target2 = this->target1 + Nimble::Vector2(distance, 0).rotate(angle);
 
     this->createUI();
 
@@ -44,6 +44,8 @@ ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distan
 
     this->setSize(1920, 1080);
 
+// Deprecated, draw arrows from target circles instead
+#if 0
     // rotation direction
     MultiWidgets::ImageWidget * rotation = new MultiWidgets::ImageWidget();
     rotation->setFixed(true);
@@ -59,9 +61,9 @@ ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distan
 
     int max = distance > 200 ? distance : 200;
 
-    rotation->setLocation( x1 - max, y1 - max);
+    rotation->setLocation( target1.x - max, target1.y - max);
     this->addChild( rotation );
-
+#endif
 
     // add logs
 
@@ -115,15 +117,11 @@ void ExperimentTrial::input(MultiWidgets::GrabManager & gm, float dt) {
 
 void ExperimentTrial::createUI()
 {
+    this->first = createMovable( target1.x , target1.y );
+    this->second = createMovable( target2.x, target2.y );
 
-    int x2 = qCos( this->angle ) * this->distance + x1;
-    int y2 = qSin( this->angle ) * this->distance + y1;
-
-    this->first = createMovable( x1 , y1);
-    this->second = createMovable( x2, y2 );
-
-    this->first->setTarget(x2, y2);
-    this->second->setTarget(x1,y1);
+    this->first->setTarget(target2.x, target2.y);
+    this->second->setTarget(target1.x, target1.y);
 
     this->first->setDefaultColor(1,0,0);
     this->second->setDefaultColor(0.3f, 0.3f, 1.0f);
@@ -176,6 +174,50 @@ void ExperimentTrial::finish()
   this->hide();
 }
 
+void ExperimentTrial::renderContent(Luminous::RenderContext & r)
+{
+    Nimble::Vector2 v[] = { target1, target2 };
+
+    Nimble::Vector2 center = 0.5f*(v[0]+v[1]);
+    Radiant::Color c(1.0f, 0.5f, 0.3f, 0.9f);
+
+    float sz = size * 3.0f;
+    float w = 2.0f;
+
+    for(size_t i=0; i < 2; ++i) {
+     Nimble::Vector2 t = (v[i]-center).perpendicular().normalize(sz);
+     if(direction == Counterclockwise)
+      t *= -1;
+
+     Nimble::Vector2 p = (center-v[i]).normalize(sz/5);
+
+     Nimble::Vector2 cps[] = {
+      v[i],
+      v[i]+0.5f*t - p,
+      v[i]+t,
+      v[i]+t+p
+     };
+
+     Nimble::Vector2 tangent = (cps[3] - cps[2]).normalize(sz/8);
+
+     Nimble::Vector2 dir1 = tangent;
+     dir1.rotate(Nimble::Math::PI * (4/5.0f));
+     Nimble::Vector2 dir2 = tangent;
+     dir2.rotate(Nimble::Math::PI * (-4/5.0f));
+
+     r.drawCurve(cps, w, c.data());
+
+     Nimble::Vector2 tip[] = {
+      cps[3]+tangent,
+      cps[3]+tangent+dir1,
+      cps[3]+tangent+dir2,
+      cps[3]+tangent
+     };
+     r.drawPolyLine(tip, 4, w, c.data());
+    }
+
+}
+
 void ExperimentTrial::processMessage(const char *id, Radiant::BinaryData &data)
 {
     if( strcmp( id , "check_targets") == 0 ) {
@@ -212,7 +254,7 @@ void ExperimentTrial::setApplication(MultiWidgets::GrabManager *application)
     this->logger->start();
 
 
-    QString header( QString::number( this->id ) + " >> x " + QString::number( this->x1 ) + " >> y " + QString::number( this->y1 ) + " >> d " + QString::number( this->distance ) + " >> size " + QString::number( this->size ) + " >> angle " + QString::number( this->angle ) );
+    QString header( QString::number( this->id ) + " >> x " + QString::number( target1.x ) + " >> y " + QString::number( target1.y ) + " >> d " + QString::number( this->distance ) + " >> size " + QString::number( this->size ) + " >> angle " + QString::number( this->angle ) + "\n");
     this->logger->append( header.toStdString() );
 
 }
