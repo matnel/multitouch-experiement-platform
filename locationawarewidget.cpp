@@ -76,7 +76,7 @@ void LocationAwareWidget::input(MultiWidgets::GrabManager &gm, float dt)
 
     if( qAbs( ( this->location().y + this->width() / 2)  - this->targetY ) <= ERROR_MARGIN && qAbs( ( this->location().x + this->width() / 2) - this->targetX ) <= ERROR_MARGIN ) {
         if( DEBUG ) {
-            this->setColor(0.5,0,1,1);
+            this->setColor(0.5, 0.3, 0.5, 1);
         }
         // purukumia! ## todo fix
         if( !this->targetReached ) {

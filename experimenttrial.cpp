@@ -176,6 +176,7 @@ void ExperimentTrial::finish()
 
 void ExperimentTrial::renderContent(Luminous::RenderContext & r)
 {
+    // draw arrows from target{1,2} to indicate direction to rotate
     Nimble::Vector2 v[] = { target1, target2 };
 
     Nimble::Vector2 center = 0.5f*(v[0]+v[1]);
