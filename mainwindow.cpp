@@ -40,7 +40,8 @@ ExperimentTrial * MainWindow::getCurrentTrial()
 
 void MainWindow::update(float dt)
 {
-    if(nextTrialTime.sinceSecondsD() > 1.0f)
+    (void)dt;
+    if(nextTrialTime.sinceSecondsD() > 2.0f)
         if(!hasChild(trials[ this->currentTrial ]))
             addChild(trials[ this->currentTrial ]);
 }
