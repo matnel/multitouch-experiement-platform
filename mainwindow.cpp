@@ -78,6 +78,9 @@ void MainWindow::nextTrial()
     QString s = QString::number( this->currentTrial + 1) + " of " + QString::number( this->trials.size() );
     this->status->setText( s.toStdString() );
 
+    static const float MARGIN = 30;
+    trial->setSize( trial->width()-2*MARGIN, trial->height()-2*MARGIN );
+    trial->setLocation(MARGIN, MARGIN);
     /*
     DelaydAddThread * thread = new DelaydAddThread(this, trial);
     thread->start();
