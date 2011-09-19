@@ -40,10 +40,11 @@ ExperimentTrial * MainWindow::getCurrentTrial()
 
 void MainWindow::update(float dt)
 {
-    (void)dt;
-    if(nextTrialTime.sinceSecondsD() > 2.0f)
-        if(!hasChild(trials[ this->currentTrial ]))
-            addChild(trials[ this->currentTrial ]);
+  MultiWidgets::Widget::update(dt);
+  (void)dt;
+  if(nextTrialTime.sinceSecondsD() > 2.0f)
+    if(!hasChild(trials[ this->currentTrial ]))
+      addChild(trials[ this->currentTrial ]);
 }
 
 void MainWindow::nextTrial()
