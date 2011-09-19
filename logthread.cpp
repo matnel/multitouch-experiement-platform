@@ -5,8 +5,6 @@
 #include <QFile>
 #include <Radiant/Sleep.hpp>
 
-#include "yaml-cpp/yaml.h"
-
 LogThread::LogThread(MultiWidgets::Widget * widget, MultiWidgets::GrabManager * grapManager, QFile * file)
 {
     this->canvas = widget;

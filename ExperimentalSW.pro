@@ -12,10 +12,11 @@ LIBS += -lMultiWidgets \
     -lScreenplay \
     -lPatterns \
     -lBox2D
+
 LIBS += -lSDLmain
 linux-*:LIBS += -lThreadedRendering
 
-INCLUDEPATH += ../yaml-cpp/include/
+#INCLUDEPATH += ../yaml-cpp/include/
 
 
 HEADERS += datareader.h \
@@ -42,11 +43,11 @@ OTHER_FILES += example.xml \
     clockwise.png \
     counterclockwise.png
 
-unix:!macx:!symbian: LIBS += -L$$PWD/../yaml-cpp/build/ -lyaml-cpp
+#unix:!macx:!symbian: LIBS += -L$$PWD/../yaml-cpp/build/ -lyaml-cpp
 
-INCLUDEPATH += $$PWD/../yaml-cpp/build
-DEPENDPATH += $$PWD/../yaml-cpp/build
+#INCLUDEPATH += $$PWD/../yaml-cpp/build
+#DEPENDPATH += $$PWD/../yaml-cpp/build
 
-unix:!macx:!symbian: PRE_TARGETDEPS += $$PWD/../yaml-cpp/build/libyaml-cpp.a
+#unix:!macx:!symbian: PRE_TARGETDEPS += $$PWD/../yaml-cpp/build/libyaml-cpp.a
 
 

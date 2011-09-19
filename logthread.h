@@ -9,9 +9,6 @@
 #include <queue>
 #include <Radiant/Mutex.hpp>
 
-#include "yaml-cpp/yaml.h"
-
-
 class LogThread : public QThread
 {
 public:
@@ -29,7 +26,6 @@ public:
 private:
     MultiWidgets::Widget * canvas;
     MultiWidgets::GrabManager * gm;
-    YAML::Emitter out;
     QFile * file;
     bool running;
 
