@@ -126,7 +126,7 @@ void ExperimentTrial::createUI()
     this->second->setTarget(x1,y1);
 
     this->first->setDefaultColor(1,0,0);
-    this->second->setDefaultColor(0.5, 0.5, 0);
+    this->second->setDefaultColor(0.3f, 0.3f, 1.0f);
 
 }
 
