@@ -23,11 +23,12 @@ public:
     void append(const std::string & str);
 
     void setFingerData( const FingerData & data);
+    bool running;
 private:
     MultiWidgets::Widget * canvas;
     MultiWidgets::GrabManager * gm;
     QFile * file;
-    bool running;
+
 
     std::queue<std::string> toWrite;
     

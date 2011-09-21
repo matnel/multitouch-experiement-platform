@@ -166,10 +166,17 @@ LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
     return a;
 }
 
-void ExperimentTrial::finish()
+bool ExperimentTrial::isFinished()
 {
-  if(this->logger)
+  return !(this->logger && this->logger->running);
+}
+
+void ExperimentTrial::finish()
+{ 
+  if(this->logger) {
     this->logger->exit();
+    this->logger->wait(1000); // 1 sec
+  }
 
   this->hide();
 }
@@ -247,7 +254,7 @@ void ExperimentTrial::setApplication(MultiWidgets::GrabManager *application)
     QString path = "./logs/log-" + QDateTime::currentDateTime().toString("yyyyMMddhhmm") + "-" + QString::fromStdString(filename) + "-" + QString::number( this->id ) + "-";
 
     // start checking if connection is lost
-    QFile * file1 = new QFile( path + "connection" );
+    //QFile * file1 = new QFile( path + "connection" );
 
     // start generic log
     QFile * file = new QFile( path + "log" );

@@ -41,10 +41,19 @@ ExperimentTrial * MainWindow::getCurrentTrial()
 void MainWindow::update(float dt)
 {
   MultiWidgets::Widget::update(dt);
-  (void)dt;
-  if(nextTrialTime.sinceSecondsD() > 2.0f)
-    if(!hasChild(trials[ this->currentTrial ]))
-      addChild(trials[ this->currentTrial ]);
+  ExperimentTrial * trial = trials[this->currentTrial];
+  for(ChildIterator it = childBegin(); it != childEnd(); ++it) {
+
+    if(dynamic_cast<ExperimentTrial*>(*it) && *it != trial) {
+      forgetChild(*it);
+    }
+  }
+
+  if(nextTrialTime.sinceSecondsD() > 2.0f) {
+    if(!trial->isFinished() && !hasChild(trial)) {
+      addChild(trial);
+    }
+  }
 }
 
 void MainWindow::nextTrial()

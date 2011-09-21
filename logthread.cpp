@@ -24,16 +24,20 @@ void LogThread::append(const std::string & str) {
 
 void LogThread::run() {
 
+    this->running = true;
     file->open( QIODevice::WriteOnly );
 
     QTextStream outF( this->file );
 
     //outF << "";
 
-    while( ! this->running || !toWrite.empty()) {
+    while(true) {
         if(toWrite.empty()) {
-            Radiant::Sleep::sleepMs(5);
-            continue;
+          if(!this->running)
+            break;
+
+          Radiant::Sleep::sleepMs(1);
+          continue;
         }
         std::string write = toWrite.front();
         toWrite.pop();
@@ -92,6 +96,7 @@ void LogThread::run() {
 
 int LogThread::exit(int retcode)
 {
+  QThread::exit(retcode);
     this->running = false;
     return retcode;
 }

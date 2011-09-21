@@ -19,6 +19,8 @@ public:
     void setApplication( MultiWidgets::GrabManager * application);
     void setFilename(const std::string & name) { filename = name; }
 
+
+    bool isFinished();
     void finish();
 
     virtual void renderContent(Luminous::RenderContext & r);
