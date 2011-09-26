@@ -16,9 +16,7 @@ void RoundWidget::renderContent(Luminous::RenderContext &render)
 
     int r = this->width() / 2;
 
-    // TODO: Should use the set colors!
     float rgba[] = {red, green, blue, alpha };
-
     render.drawCircle(0.5f*this->size(), r, rgba);
 }
 

@@ -84,7 +84,7 @@ void MainWindow::nextTrial()
 
     nextTrialTime = Radiant::TimeStamp::getTime();
 
-    QString s = QString::number( this->currentTrial + 1) + " of " + QString::number( this->trials.size() );
+    QString s = QString::number( this->trials.size() - this->currentTrial) + " remaining";
     this->status->setText( s.toStdString() );
 
     static const float MARGIN = 30;

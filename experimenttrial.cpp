@@ -118,14 +118,35 @@ void ExperimentTrial::input(MultiWidgets::GrabManager & gm, float dt) {
 void ExperimentTrial::createUI()
 {
     this->first = createMovable( target1.x , target1.y );
+
     this->second = createMovable( target2.x, target2.y );
 
     this->first->setTarget(target2.x, target2.y);
     this->second->setTarget(target1.x, target1.y);
 
-    this->first->setDefaultColor(1,0,0);
-    this->second->setDefaultColor(0.3f, 0.3f, 1.0f);
 
+
+    LocationAwareWidget * higher = first;
+
+    LocationAwareWidget * lower = second;
+    
+    // Y axis points downwards
+    if(first->location().y > second->location().y) {
+      higher = second;
+      lower = first;
+    }
+    
+   higher->setDefaultColor(1,0,0);
+    lower->setDefaultColor(0.3f, 0.3f, 1.0f);
+
+    MultiWidgets::Widget * box = new RoundWidget();
+    box->setColor(1,1,1,1);
+
+    box->setSize(0.5f*(higher->size()));
+    box->setFixed(true);
+    box->setInputTransparent(true);
+    box->setCenterLocation( 0.5f*higher->size() );
+    higher->addChild(box);
 }
 
 LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
