@@ -29,11 +29,18 @@ public:
 
       logger->append("Subjectively hard trial!\n");
       return true;
+    } else if(ascii == 't' && logger) {
+      logger->append("Tracking problem!\n");
+      return true;
     } else if(ascii == 'n' && logger) {
       mw->nextTrial();
       logger->append("Skipping trial!\n");
       return true;
     } else {
+      if(logger && ( (ascii >= '0' && ascii <= '9') || (ascii >= 'a' && ascii <= 'z') )) {
+        std::string p("Key pressed: "); p += ascii; p += '\n';
+        logger->append(p.c_str());
+      }
       return MultiWidgets::SimpleSDLApplication::keyPressEvent(ascii, special, modifiers);
     }
   }
