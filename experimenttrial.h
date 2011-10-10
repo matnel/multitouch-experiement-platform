@@ -36,7 +36,7 @@ private:
     Nimble::Vector2 target1, target2;
 
     void createUI();
-    LocationAwareWidget * createMovable(int x, int y);
+    LocationAwareWidget * createMovable(Nimble::Vector2 pos, Nimble::Vector2 target);
 
     LocationAwareWidget * first;
     LocationAwareWidget * second;

@@ -15,7 +15,7 @@ public:
     virtual void input(MultiWidgets::GrabManager &gm, float dt);
     virtual void grabFinger (long fingerId, MultiWidgets::GrabManager & gm);
     virtual void grabHand(long handId, MultiWidgets::GrabManager & gm);
-    void setTarget(int x, int y);
+    void setTarget(Nimble::Vector2 target);
     bool isTargetReached();
     bool isContactLost();
 

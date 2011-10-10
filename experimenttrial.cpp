@@ -33,10 +33,8 @@ ExperimentTrial::ExperimentTrial(int id, RotationDirection direction, int distan
 
     this->target1 = Nimble::Vector2(x1,y1);
     this->target2 = this->target1 + Nimble::Vector2(distance, 0).rotate(angle);
-
     this->createUI();
-
-    this->setFixed(true);
+this->setFixed(true);
     this->setAllowRotation(false);
 
     this->setInputTransparent(true);
@@ -117,21 +115,25 @@ void ExperimentTrial::input(MultiWidgets::GrabManager & gm, float dt) {
 
 void ExperimentTrial::createUI()
 {
-    this->first = createMovable( target1.x , target1.y );
+    bool flip = target1.y > target2.y;
 
-    this->second = createMovable( target2.x, target2.y );
+    size_t targets[] = {0, 1};
 
-    this->first->setTarget(target2.x, target2.y);
-    this->second->setTarget(target1.x, target1.y);
+    if(flip && direction == Clockwise) {targets[0]= 1; targets[1]= 0;}
 
+    Nimble::Vector2 v = 0.5f*(target2-target1);
+    Nimble::Vector2 off = (v + v.perpendicular());
+    Nimble::Vector2 realTargets[] = { target1+off, target2-off };
+    this->first = createMovable( target1, realTargets[0]);
 
+    this->second = createMovable( target2, realTargets[1]);
+
+    first->setTarget(realTargets[targets[0]]);
+    second->setTarget(realTargets[targets[1]]);
 
     LocationAwareWidget * higher = first;
-
     LocationAwareWidget * lower = second;
-    
-    // Y axis points downwards
-    if(first->location().y > second->location().y) {
+    if(flip) {
       higher = second;
       lower = first;
     }
@@ -149,7 +151,7 @@ void ExperimentTrial::createUI()
     higher->addChild(box);
 }
 
-LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
+LocationAwareWidget * ExperimentTrial::createMovable(Nimble::Vector2 pos, Nimble::Vector2 target)
 {
     LocationAwareWidget * a = new LocationAwareWidget();
 
@@ -157,7 +159,7 @@ LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
     a->setWidth( size );
 
     a->addOperator(new MultiWidgets::StayInsideParentOperator);
-    a->setCenterLocation( Nimble::Vector2(x, y) );
+    a->setCenterLocation( pos );
 
     if( DEBUG ) {
         a->setColor(1,0,0,50);
@@ -177,7 +179,7 @@ LocationAwareWidget * ExperimentTrial::createMovable(int x, int y)
     as->setHeight(this->size-10);
     as->setColor(0.5, 0.5, 0, 1);
 
-    as->setCenterLocation( Nimble::Vector2(x, y) );
+    as->setCenterLocation( target );
 
     as->setAllowRotation(false);
     as->setFixed(true);
@@ -210,7 +212,7 @@ void ExperimentTrial::renderContent(Luminous::RenderContext & r)
     Nimble::Vector2 center = 0.5f*(v[0]+v[1]);
     Radiant::Color c(1.0f, 0.5f, 0.3f, 0.9f);
 
-    float sz = size * 3.0f;
+    float sz = size * 1.5f;
     float w = 2.0f;
 
     for(size_t i=0; i < 2; ++i) {

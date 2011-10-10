@@ -97,10 +97,10 @@ bool LocationAwareWidget::isContactLost()
     return false;
 }
 
-void LocationAwareWidget::setTarget(int x, int y)
+void LocationAwareWidget::setTarget(Nimble::Vector2 target)
 {
-    this->targetX = x;
-    this->targetY = y;
+    this->targetX = target.x;
+    this->targetY = target.y;
 }
 
 bool LocationAwareWidget::isTargetReached()
