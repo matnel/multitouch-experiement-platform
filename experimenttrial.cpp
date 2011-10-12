@@ -217,7 +217,7 @@ void ExperimentTrial::renderContent(Luminous::RenderContext & r)
 
     for(size_t i=0; i < 2; ++i) {
      Nimble::Vector2 t = (v[i]-center).perpendicular().normalize(sz);
-     if(direction == Counterclockwise)
+     if(direction == Counterclockwise || target1.y <= target2.y)
       t *= -1;
 
      Nimble::Vector2 p = (center-v[i]).normalize(sz/5);
